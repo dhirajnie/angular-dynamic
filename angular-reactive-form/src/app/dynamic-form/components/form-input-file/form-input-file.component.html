@@ -1,0 +1,31 @@
+<div class="row" [hidden]="config.hide">
+  <div class="col-sm-6">
+    <div class="form-group" [ngClass]="{'has-error' : error ||  group.controls[config.key].errors && (config.isRequired.toLowerCase() === 'true')}">
+      <label>{{ config.displayLabel }}<span *ngIf="(config.isRequired.toLowerCase() === 'true')">*</span></label>
+
+      <div class="photo">
+        <div class="photo-hover">
+          <img *ngIf="img||config.attributeValues" class="thumb-rounded thumb-lg" [src]="img||config.attributeValues">
+          <button type="button" role="button" *ngIf="img||config.attributeValues && config.isEditable " (click)="imgClick()" class="btn btn-icon photo-close"
+            title="Remove Image">
+            <i class="icon icon-cross"></i>
+          </button>
+        </div>
+        <div>
+
+          <label *ngIf="config.isEditable" for="GUIDImage" class="btn btn-default btn-sm spacer-out-top-sm btn-file">
+            <span translate><span>Select image</span></span>
+            <input id="GUIDImage" type="file"   (change)="onFileChange($event)" accept="image/*">
+          </label>
+        </div>
+      </div>
+      <p *ngIf="error" class="help-block">
+        <span>{{errorMessage}}</span>
+      </p>
+      <p *ngIf="group.controls[config.key].errors && (config.isRequired.toLowerCase() === 'true')" class="help-block">
+        <span>{{config.displayLabel}}<span translate> is required</span></span>
+      </p>
+    </div>
+
+  </div>
+</div>

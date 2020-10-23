@@ -1,0 +1,4 @@
+<div class="daterange-picker" [class.input-focused]="focusInputGroup"  #dateRangePicker>
+    <input [disabled]="!isEditable" type="text" id="daterange" placeholder="{{placeholder}}" class="form-control daterangepicker-selector" value = "" (change)="dateChanged($event)" (focus)="onFocusInput()" (blur)="onBlurInput()" autocomplete="off"/>
+    <!-- <button type="button" class="clear" data-ng-click="clearDate()" role="button" ><span class="sr-only">Clear</span></button> -->
+</div>

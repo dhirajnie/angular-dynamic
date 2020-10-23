@@ -1,0 +1,6 @@
+<mat-form-field>
+    <input matInput type="number" #inputSliderString [min]=min [max]=max (keyup)="onKeyUp($event)" (mouseup)="onMouseUp($event)" [(ngModel)]="value" (ngModelChange)="onInputChange($event)" class="form-control" aria-label="blue">
+</mat-form-field>
+<span>%</span>
+<mat-slider [value]="value" (input)="onSliderChange($event)" min=min max=max aria-label="blue" id="blue-slider" class="md-primary">
+</mat-slider>

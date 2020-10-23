@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-sm-3">
+    <div class="form-group" [ngClass]="{'has-error':!group.controls[config.key].valid && dateTouched && dateFoucsedout, 'has-success': dateTouched && dateFoucsedout && group.controls[config.key].valid}">
+      <label translate>{{config.displayLabel}}<span *ngIf="(config.isRequired.toLowerCase() === 'true')">*</span></label>
+     <idm-date-range-picker [datePickerOptions]="config.datePickerOptions" [(selectedDate)]="config.attributeValues" [isEditable]="config.isEditable" [(touched)]="dateTouched" [(focusedout)]="dateFoucsedout" (selectedDateChange)="effectiveDateUpdate($event)"></idm-date-range-picker> 
+     <p class="help-block" *ngIf="!group.controls[config.key].valid && (dateTouched && dateFoucsedout)">
+        <span *ngIf="group.controls[config.key].hasError('emptyString')" translate>{{config.displayLabel}}<span translate> is required</span></span>
+      </p>
+    </div>
+  </div>
+</div>

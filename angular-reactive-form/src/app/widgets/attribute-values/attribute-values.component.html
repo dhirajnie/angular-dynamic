@@ -1,0 +1,5 @@
+<div id="attribute{{attribute.key}}" *ngIf="attribute.value" [ngClass]="className">
+  <a *ngIf="attribute.key == 'Email'" href="mailto:{{attribute.value}}">{{attribute.value}}</a>
+  <a *ngIf="attribute.key == 'TelephoneNumber'" href="tel:{{attribute.value}}">{{attribute.value}}</a>
+  <span *ngIf="attribute.key != 'TelephoneNumber' && attribute.key != 'Email' ">{{attribute.value}}</span>
+</div>

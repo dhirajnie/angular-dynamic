@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="form-group" [ngClass]="{'has-error':touched && !group.controls[config.key].valid, 'has-success':touched && group.controls[config.key].valid}">
+                <div>
+                    <label>{{ config.displayLabel }}
+                        <span *ngIf="config.isRequired == 'true'">*</span>
+                    </label>
+                </div>
+                <div>
+                    <idm-select-entities-widget [initWidgetConfig]="config.selectionWidgetInitSchema" [(initSelectedItems)]="config.attributeValues" (touchedChange)="touchedChange($event)"
+                         ngDefaultControl></idm-select-entities-widget>
+                    <p class="help-block" *ngIf="touched && !group.controls[config.key].valid">
+                        <span *ngIf="group.controls[config.key].hasError('emptyArray')">{{config.displayLabel}}<span translate> is required</span></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

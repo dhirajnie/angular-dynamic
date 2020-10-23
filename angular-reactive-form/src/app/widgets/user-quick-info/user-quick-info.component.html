@@ -1,0 +1,45 @@
+<div  class="modal modal-size-sm" id="{{'userQuickInfo_'+widgetID}}" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div *ngIf="!loading" class="modal-body">
+        <button type="button" class="close" (click)="close()" ><span class="sr-only" translate>Close</span></button>
+
+        <div>
+          <div class="row">
+            <div class="col-sm-5" >
+              <img  *ngIf="quickInfo?.image" [src]="sanitizer.bypassSecurityTrustUrl(quickInfo?.image)"  class="thumb-normal thumb-xl">
+              <img  *ngIf="!quickInfo?.image" src="assets/img/default_user_img.png"  class="thumb-normal thumb-xl">
+            </div>
+
+            <div class="col-sm-7">
+              <h3 *ngIf="quickInfo?.displayName" class="spacer-out-bottom-xs">{{quickInfo?.displayName}}</h3>
+              <!-- Primary attribute for Quick Info card repeat section -->
+              <div class="label-section-inline spacer-out-bottom-base" *ngFor="let primaryAttribute of quickInfo?.primaryAttributes">
+                <idm-attribute-values [className]="'label-section-value'" [attribute]="primaryAttribute"></idm-attribute-values>
+              </div>
+            </div>
+          </div>
+          <hr class="hr-default">
+          <div class="row">
+            <!-- Secondary attribute for Quick Info Card repeat section -->
+            <div class="col-sm-6" *ngFor="let secondaryAttribute of quickInfo?.secondaryAttributes ">
+              <div class="label-section-block">
+                {{secondaryAttribute?.displayLabel}}
+                <idm-attribute-values [className]="'label-section-value height-ellipsis'" [attribute]="secondaryAttribute"></idm-attribute-values>
+
+              </div>
+            </div>
+            <!-- Secondary attribute for Quick Info Card repeat section -->
+          </div>
+        </div>
+        <div class="text-center" >
+          <a href="/idmdash/#/users/{{quickInfo?.dn}}" class="btn btn-md btn-default btn-block" translate >View more info</a>
+        </div>
+      </div>
+      <idm-loading [componentLoading]="loading"></idm-loading>
+    </div>
+  </div>
+</div>
+
+
+

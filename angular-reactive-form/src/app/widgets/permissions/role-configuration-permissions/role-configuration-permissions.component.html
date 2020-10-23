@@ -1,0 +1,22 @@
+<form name="permissionsForm" novalidate [formGroup]="permissionsForm">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-6">
+      <label translate>Authorized Objects</label>
+      <br/>
+      <span translate>Configuration</span>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-6">
+      <label translate>Select Permissions</label>
+      <ul class="list-selection-single">
+        <ng-container *ngFor="let permission of permissions; let i = index">
+          <li>
+            <label class="checkbox-inline list-item">
+              <input type="checkbox" class="form-control" [formControl]="permissionsFormArray.controls[i]" />
+              <span class="checkbox-label">{{permission.permissionLabel}}</span>
+            </label>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</form>

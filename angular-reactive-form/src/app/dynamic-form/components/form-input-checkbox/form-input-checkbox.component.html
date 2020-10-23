@@ -1,0 +1,11 @@
+<div class="row" [hidden]="config.hide">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="checkbox-ios checkbox-only">{{ config.displayLabel }}<span *ngIf="config.isRequired == 'true'">*</span></label>
+            <label class="checkbox-ios checkbox-only">
+                <input type="checkbox" class="form-control" [attr.placeholder]="config.placeholder" [formControl]="group.controls[config.key]"/>
+                <i></i>
+            </label>
+        </div>
+    </div>
+</div>

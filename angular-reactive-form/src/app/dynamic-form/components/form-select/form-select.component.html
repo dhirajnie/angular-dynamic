@@ -1,0 +1,14 @@
+<div class="row" [hidden]="config.hide">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div>
+                <label>{{ config.displayLabel }}<span *ngIf="config.isRequired == 'true'">*</span></label>
+            </div>
+            <select class="form-control">
+                <option [value]="option.$" *ngFor="let option of config.attributeValues">
+                    {{ option.$ }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

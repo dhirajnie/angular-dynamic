@@ -1,0 +1,46 @@
+<!-- <a *ngIf="(driver.entitlements && driver.entitlements.length > 0); else no_child_name" class="spacer-in-left-sm">
+    <span class="icon icon-driver spacer-out-none"></span>
+    <i class="icon icon-right spacer-out-none" (click)="toggleDriver();$event.stopPropagation()"></i>
+    <span>{{driver.name || driver.displayName}}</span>
+</a>
+<ng-template #no_child_name>
+  <a class="spacer-in-left-sm">
+    <div class="left">
+      <span class="icon icon-driver"></span>
+      <i class="icon spacer-out-none" [ngClass]="{'icon-down': isExpanded(), 'icon-right': !isExpanded()}" (click)="toggleDriver();$event.stopPropagation()"></i>
+    </div>
+    <div class="right">
+        <span>{{driver.name || driver.displayName}}</span>
+    </div>
+  </a>
+</ng-template> -->
+
+<!-- This widget is similar to idm-container-tree widget, the only difference is that 
+    if we are not at root driver level, we don't show expand button for entitlements as 
+    it doesn't contain any child element. The tree is only one level. -->
+
+<a class="spacer-in-left-sm"  [ngClass]="{'cursor-default':driverSelectionDisabled}">
+  <div class="left">
+    <span class="icon icon-driver icon-size-lg" [ngClass]="{'cursor-default':driverSelectionDisabled}"></span>
+    <i class="icon spacer-out-none cursor-pointer" *ngIf="isRoot && !isSelectAll(driver)" [ngClass]="{'icon-down': isExpanded(), 'icon-right': !isExpanded()}" (click)="toggleDriver();$event.stopPropagation()"></i>
+  </div>
+  <div class="right">
+    <span>{{driver.name || driver.displayName}}</span>
+  </div>
+</a>
+
+<ul class="tree-list-group loading" *ngIf="loadingEntitlements">
+  <li class="spacer-out-v-xs small" translate>Loading entitlements...</li>
+</ul>
+
+<ul class="tree-list-group" *ngIf="!loadingEntitlements && error">
+  <li class="space-out-v-xs alert alert-danger center-text small"><span>{{errorMessage}}</span></li>
+</ul>
+
+<ul class="tree-list-group" *ngIf="!loadingEntitlements && !error" [hidden]="!expanded">
+  <li *ngFor="let item of driver.entitlements; let i = index" (click)="isInSelectedDriver(item)?$event.stopPropagation(): onAddItem(item);$event.stopPropagation()"
+    [ngClass]="{'tree-list-item-selected disabled':isInSelectedDriver(item)}">
+    <idm-driver-tree [driver]="item" (addItem)="onAddItem($event)" [selectedItems]="selectedItems" [isRoot]="false">
+    </idm-driver-tree>
+  </li>
+</ul>

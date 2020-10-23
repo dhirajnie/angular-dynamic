@@ -1,0 +1,235 @@
+<div class="tag-selector-hybird" (keydown.esc)="hideDropDown()">
+  <div #selectedTagsContainer class="maxheight-sm" [hidden]="isActiveTab(7) && hideSelectionIfDropDownTabActive">
+    <ul class="selected-tags spacer-in-h-sm spacer-in-top-xs" [hidden]="!isSelectedItems()" [dragula]="initWidgetConfig.widgetId"
+      [dragulaModel]='initSelectedItems'>
+      <li class="selected-tag-item" *ngFor="let item of initSelectedItems; let i = index" [class.no-drag]="!isDragEnabled()" [class.drag]="isDragEnabled()">
+        <div class="selected-tag-content">
+          <ng-container *ngIf="item.type == 'user'">
+            <span class="icon icon-user icon-size-md"></span>
+            <span tabindex="0" attr.aria-label="{{item.fullName || item.name}}">{{item.fullName || item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'group'">
+            <span class="icon icon-group icon-size-md"></span>
+            <span>{{item.name || item.description}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'role' || item.type == 'category'">
+            <span class="icon icon-role icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'container'">
+            <span class="icon icon-container icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'prd'">
+            <span class="icon icon-prd icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'driverOrEntitlement'">
+            <span class="icon icon-driver icon-size-md"></span>
+            <span>{{item.displayName || item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'dropdown'">
+            <span>{{item.displayName || item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'entitlementValues'">
+            <span class="icon icon-entitlementValues icon-size-md"></span>
+            <span>{{item.name || item.valueDisplayName}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'resource'">
+            <span class="icon icon-resource icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'team'">
+            <span class="icon icon-team icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'sod'">
+            <span class="icon icon-sod icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'dirxmldriver'">
+            <span class="icon icon-driver icon-size-md"></span>
+            <span>{{item.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'entity'">
+            <span tabindex="0" attr.aria-label="{{item.entityDisplayValue}}">{{item.entityDisplayValue}}</span>
+          </ng-container>
+          <ng-container *ngIf="item.type == 'sodRecipient'">
+            <span>{{item.recipientname}}</span>
+          </ng-container>    
+          <button class="remove" [disabled]="isReadOnly" [ngClass]="{'removeButtonDisabled':isReadOnly}" (click)="removeSelectedItem(item, true)" type="button">
+            <span class="sr-only" translate>Remove</span>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="clearfix spacer-in-h-sm" *ngIf="isDragNoteEnabled()">
+    <p class="pull-left small" translate>Drag and drop to reorder selected items</p>
+  </div>
+  <div class="list-view-toggle" *ngIf="showDropDownToggle" role="menu" (click)="toggleDropdown()" [ngClass]="{'expanded': isDropdownVisible()}">
+    {{selectText}}
+  </div>
+  <ng-container *ngIf="!showDropDownToggle && showSearchElements() && !isReadOnly">
+    <div class="input-group" [class.input-focused]="focusInputGroup" [ngClass]="{'expanded': isDropdownVisible()}">
+      <label for="input-search" class="sr-only">{{getSearchPlaceHolder()}}</label>
+         <input [disabled]="isDisabledWidget" aria-label="query" id="input-search" placeholder="{{getSearchPlaceHolder()}}" class="form-control input-sm"
+        type="text" [ngModel]="query" (ngModelChange)="queryChanged($event)" (focus)="onFocusInput(); setDropDownVisible()"
+        (blur)="onBlurInput()" />
+      <span class="input-group-btn spacer-none">
+        <button [disabled]="isDisabledWidget" class="btn btn-default" type="button" role="button" aria-label="dropdown" (click)="toggleDropdown()">
+          <i class="icon icon-arrow-angle-down spacer-out-none" role="button" attr.aria-label="{{'dropdown'}}" [hidden]="isDropdownVisible()"></i>
+          <i class="icon icon-cross spacer-out-none" [hidden]="!isDropdownVisible()" role="button" attr.aria-label="{{'Close search'}}"></i>
+          <!--<span class="list-view-toggle" [ngClass]="{'expanded': isDropdownVisible()}"></span>-->
+        </button>
+      </span>
+    </div>
+    <!-- /input-group -->
+  </ng-container>
+  <div *ngIf="isDropdownVisible()" [ngClass]="{'spacer-in-sm': showDropDownToggle, 'spacer-in-xs': !showDropDownToggle}">
+    <!--<div [ngClass]="{'spacer-in-sm': showDropDownToggle, 'spacer-in-bottom-sm': !showDropDownToggle}">-->
+    <div>
+      <div class="tabs-simple" *ngIf="showTabBar">
+        <ul class="nav nav-tabs" role="menu">
+          <ng-container *ngFor="let tab of config.tabs">
+            <li *ngIf="tab.showTab" [ngClass]="{'active': isActiveTab(tab.tabId)}">
+              <a (click)="selectTab(tab.tabId)">{{tab.tabLabel}}</a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <ng-container *ngIf="showSearchElements()">
+        <section class="form-input-search spacer-out-bottom-sm" *ngIf="showDropDownToggle">
+          <label for="input-search-2" class="sr-only">{{getSearchPlaceHolder()}}</label>
+          <input aria-label="query" id="input-search-2" placeholder="{{getSearchPlaceHolder()}}" class="form-control input-sm spacer-out-v-sm" type="text"
+            [ngModel]="query" (ngModelChange)="queryChanged($event)" />
+        </section>
+        <div class="spacer-in-xs small" *ngIf="isQueryEmpty()" translate>Type to activate search</div>
+      </ng-container>
+      <div id="dropdown-container" *ngIf="isItemListVisible()" class="">
+        <div [hidden]="!isPreviousPageAvailable()" class="spacer-out-v-xs">
+          <a (click)="prevPage()" tabindex="0" (keydown.enter)="prevPage(); resetFocus('results-list-' + initWidgetConfig.widgetId);">
+            <span translate>Prev</span>
+            <i class="fa fa-caret-up"></i>
+          </a>
+        </div>
+        <div class="tag-selector-basic remove-border-padding maxheight-sm" attr.aria-label="{{'Search Results'}}" tabindex="-1" id="results-list-{{initWidgetConfig.widgetId}}">
+          <ul class="list-selector">
+            <ng-template ngFor let-tab [ngForOf]="config.tabs">
+              <ng-container *ngFor="let item of tab.itemsList; let i = index">
+                <li *ngIf="isActiveTab(tab.tabId) && (i < 300)" (keydown.enter)="isNotClickable(item)?null:selectListItem(item)" (click)="isNotClickable(item)?null:selectListItem(item)" [ngClass]="{'item-selected': isSelectedItem(item) || isExcludedItem(item), 'item-excluded': isExcludedItem(item), 'disabled': isSelectedItem(item) || isExcludedItem(item)}">
+                  <a *ngIf="isActiveTab(0)" tabindex="0">
+                    <img *ngIf="item.image" [src]="item.image" alt="user image"  class="thumb-rounded thumb-icon spacer-out-right-xs">
+                    <span *ngIf="!item.image" class="icon icon-user"></span>
+                    {{item.fullName || item.name}}
+                  </a>
+                  <a *ngIf="isActiveTab(1)" tabindex="0">
+                    <span class="icon icon-group"></span>{{item.description}}</a>
+                  <a class="list-item-row" *ngIf="isActiveTab(2)" tabindex="0">
+                    <div class="list-item-col"><i class="icon icon-size-lg icon-role"></i></div>
+                    <div class="list-item-col-wide">
+                        <h5 class="media-heading">{{item.name}}</h5>
+                        <p class="small media-heading">{{item?.description| slice:0:100 }}{{item?.description?.length > 100 ? '...' : ''}}</p>
+                    </div>
+                  </a>
+                  <a *ngIf="isActiveTab(3)" tabindex="0">
+                    <span class="icon icon-role"></span>{{item.name}}</a>
+                  <a *ngIf="isActiveTab(5)" tabindex="0">
+                    <span class="icon icon-prd"></span>{{item.name}}</a>
+                  <a *ngIf="isActiveTab(7)" tabindex="0">{{item.displayName || item.name}}</a>
+                  <a *ngIf="isActiveTab(8)" tabindex="0">{{item.name}} 
+                    <span [hidden]="item.description == undefined || item.description == null || item.description == ''"><br/><span class="small text-watermark height-ellipsis" title="{{item.description}}">{{item.description}}</span></span>
+                  </a>
+                  <a *ngIf="isActiveTab(9)" tabindex="0">
+                    <span class="icon icon-resource"></span>{{item.name}}</a>
+                  <a *ngIf="isActiveTab(10)" tabindex="0">
+                    <span class="icon icon-team"></span>{{item.name}}</a>
+                  <a *ngIf="isActiveTab(11)" tabindex="0">
+                    <span class="icon icon-sod"></span>{{item.name}}</a>
+                  <a *ngIf="isActiveTab(12)" tabindex="0">
+                    <span class="icon icon-driver"></span>{{item.name}}</a>
+                  <a *ngIf="isActiveTab(13)" class="list-item-row" tabindex="0">
+                    <div *ngIf="entityDisplayAttributes.length > 0 && !item['showCN']; else listOfDns">
+                      <div *ngFor="let attr of entityDisplayAttributes; let i = index" class="list-item-col-wide displayAsTableRow">
+                        <p class="small media-heading display-item-one-line" *ngIf ="item[attr.key] !== undefined" title="{{attr.displayLabel}} : {{item[attr.key]}}">
+                            {{attr.displayLabel}} : {{item[attr.key]}}
+                        </p>
+                      </div>
+                    </div>
+                    <ng-template #listOfDns>
+                      <p class="small media-heading"> {{ vutils.getCnFromDn(item.dn) }}</p>
+                    </ng-template>
+                  </a>
+                  <a *ngIf="isActiveTab(14)" tabindex="0">
+                    <span class="icon icon-sod"></span>{{item.recipientname}}</a>
+                </li>
+              </ng-container>
+            </ng-template>
+          </ul>
+          <ng-container *ngIf="isActiveTab(4)">
+            <ul class="tree-list-group root" *ngIf="!isItemsListEmpty()" [ngClass]="{'spacer-out-top-sm': !singleTabWithoutSearchBar}">
+              <ng-container *ngIf=config.tabs[4].containerRootSelectable>
+                <li *ngFor="let item of config.tabs[4].itemsList" (click)="selectContainer(item)" [ngClass]="{'tree-list-item-selected disabled': isContainerSelected(item)}">
+                  <ng-container *ngIf="showRoleLevel(item)">
+                    <idm-container-tree [container]="item" [isRoot]="true" [isRootSelectable]="true" (addItem)="selectContainerItem($event)"
+                      [selectedItems]="initSelectedItems"></idm-container-tree>
+                  </ng-container>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="!config.tabs[4].containerRootSelectable">
+                <li *ngFor="let item of config.tabs[4].itemsList" class="disabled">
+                  <ng-container *ngIf="showRoleLevel(item)">
+                    <idm-container-tree [container]="item" [isRoot]="true" [isRootSelectable]="false" (addItem)="selectContainerItem($event)"
+                      [selectedItems]="initSelectedItems"></idm-container-tree>
+                  </ng-container>
+                </li>
+              </ng-container>
+            </ul>
+          </ng-container>
+          <ng-container *ngIf="isActiveTab(6)">
+            <ul class="tree-list-group root" *ngIf="!isItemsListEmpty()" [ngClass]="{'spacer-out-top-sm': !singleTabWithoutSearchBar}">
+              <ng-container *ngIf=!config.tabs[6].driverSelectionDisabled>
+                <li *ngFor="let item of config.tabs[6].itemsList" (click)="selectDriver(item)"
+                  [ngClass]="{'tree-list-item-selected disabled': isDriverSelected(item)}">
+                  <idm-driver-tree [driver]="item" [isRoot]="true" (addItem)="selectDriverOrEntitlementItem($event)"
+                    [selectedItems]="initSelectedItems" [isCprsSupported]="cprsSupported"></idm-driver-tree>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="config.tabs[6].driverSelectionDisabled">
+                <li *ngFor="let item of config.tabs[6].itemsList" class="disabled">
+                <idm-driver-tree [driver]="item" [isRoot]="true" (addItem)="selectDriverOrEntitlementItem($event)" [selectedItems]="initSelectedItems"
+[driverSelectionDisabled]="config.tabs[6].driverSelectionDisabled" [isCprsSupported]="cprsSupported"></idm-driver-tree>
+              </li>
+              </ng-container>
+            </ul>
+          </ng-container>
+          <div class="small spacer-in-bottom-xs" *ngIf="!resultsLoading && isItemsListEmpty()">
+            <span translate [translateParams]="{ActiveTabLabel:getActiveTabLabel() | lowercase}">No more [[ActiveTabLabel]] are available for selection.</span>
+            <span *ngIf = "isActiveTab(8)" translate>If the entitlements are valueless please choose the entitlement.</span>
+          </div>
+        </div>
+        <div class="small text-center spacer-in-sm" *ngIf="resultsLoading">
+          <span translate>Loading</span> {{this.config.tabs[this.config.activeTab].tabLabel}} ...</div>
+
+        <div class="alert alert-warning center-text" *ngIf="!resultsLoading && isItemsListTooLong()">
+          <span translate [translateParams]="{ActiveTabLabel:getActiveTabLabel() | lowercase}">Too many [[ActiveTabLabel]] to display, Please refine your search.</span>
+        </div>
+        <div class="alert alert-danger center-text spacer-out-v-sm" *ngIf="!resultsLoading && showError()">
+          <span>{{errorMessage}}</span>
+        </div>
+        <div [hidden]="!isNextPageAvailable()" class="spacer-out-v-xs">
+          <a (click)="nextPage()" tabindex="0" (keydown.enter)="nextPage(); resetFocus('results-list-' + initWidgetConfig.widgetId);">
+            <span translate>Next</span>
+            <i class="fa fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isClearSelectionVisible() && isSelectedItems()" class="spacer-in-h-sm spacer-in-v-xs">
+    <a class="small text-link" (click)="clearAllSelectedItems(true)">
+      <span translate>Clear Selection</span>
+    </a>
+  </div>
+</div>

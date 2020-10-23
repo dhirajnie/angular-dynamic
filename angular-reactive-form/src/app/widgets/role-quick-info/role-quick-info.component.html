@@ -1,0 +1,41 @@
+<div class="modal modal-size-sm" id="{{'roleQuickInfo_'+widgetID}}" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" *ngIf="!loading">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="icon icon-size-lg icon-role"></i>{{quickInfo?.displayName}}
+        </div>
+        <button type="button" class="close" (click)="close()">
+          <span class="sr-only" translate>Close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- Primary attribute for Quick Info card repeat section -->
+              <div class="label-section-block spacer-out-bottom-base" *ngFor="let primaryAttribute of quickInfo?.primaryAttributes">
+                {{primaryAttribute?.displayLabel}}
+                <idm-attribute-values [className]="'label-section-value'" [attribute]="primaryAttribute"></idm-attribute-values>
+              </div>
+            </div>
+          </div>
+          <hr class="hr-default">
+          <div class="row">
+            <!-- Secondary attribute for Quick Info Card repeat section -->
+            <div class="col-sm-6" *ngFor="let secondaryAttribute of quickInfo?.secondaryAttributes ">
+              <div class="label-section-block">
+                {{secondaryAttribute?.displayLabel}}
+                <idm-attribute-values [className]="'label-section-value height-ellipsis'" [attribute]="secondaryAttribute"></idm-attribute-values>
+
+              </div>
+            </div>
+            <!-- Secondary attribute for Quick Info Card repeat section -->
+          </div>
+        <div class="text-center">
+          <button (click)="goToRoleDetails(quickInfo?.dn)" class="btn btn-md btn-default btn-block" translate>View more info</button>
+        </div>
+      </div>
+      <idm-loading [componentLoading]="loading"></idm-loading>
+    </div>
+  </div>
+</div>

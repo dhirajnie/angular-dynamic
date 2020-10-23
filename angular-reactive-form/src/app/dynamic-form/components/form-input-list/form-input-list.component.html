@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="form-group" [ngClass]="{'has-error':inputListTouched && !group.controls[config.key].valid, 'has-success':inputListTouched && group.controls[config.key].valid}">
+      <div>
+        <label>{{ config.displayLabel }}
+            <span *ngIf="config.isRequired == 'true'">*</span>
+        </label>
+      </div>
+      <div>
+        <idm-select-entities-widget [initWidgetConfig]="config.selectionWidgetInitSchema" [(initSelectedItems)]="config.attributeValues" [dropDownList]="config.choiceList"
+          (touchedChange)="touchedChange($event)" [hideSelectionIfDropDownTab]="hideSelectionIfDropDownTab">
+        </idm-select-entities-widget>
+        <p class="help-block" *ngIf="inputListTouched && !group.controls[config.key].valid">
+          <span *ngIf="group.controls[config.key].hasError('emptyArray')">{{config.displayLabel}}<span translate> is required</span></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

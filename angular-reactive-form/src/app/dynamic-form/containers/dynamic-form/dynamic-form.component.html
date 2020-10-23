@@ -1,0 +1,6 @@
+<div [formGroup]="parentForm">
+    <ng-container *ngFor="let field of config;" dynamicField [config]="field" [isMultiAssignable]="isMultiAssignable"
+        [group]="parentForm" (fieldChanged)="fieldChanged($event)">
+       
+    </ng-container>
+</div>

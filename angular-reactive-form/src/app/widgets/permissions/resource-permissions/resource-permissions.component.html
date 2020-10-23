@@ -1,0 +1,67 @@
+<div>
+  <label translate>Select Authorized Objects</label>
+  <form [formGroup]="AddResourcePermissionForm" novalidate name="AddResourcePermissionForm">
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <div class="form-group">
+          <div class="radio">
+            <label>
+              <input type="radio" value="allResources" (change)="radioTypeChanged()" formControlName="selectAllOrSubOrResource" name="selectAllOrSubOrResource">
+              <span class="rb-label" translate>
+                All Resources
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': selectedResourceSubcontainerTouched && selectedResourceSubcontainerFocusedout && !selectedResourceSubcontainer.valid , 'has-success': selectedResourceSubcontainerTouched && selectedResourceSubcontainerFocusedout && selectedResourceSubcontainer.valid }">
+          <div class="radio">
+            <label>
+              <input type="radio" value="subContainer" (change)="radioTypeChanged()" formControlName="selectAllOrSubOrResource" name="selectAllOrSubOrResource">
+              <span class="rb-label" translate>
+                Resource Sub Container
+              </span>
+            </label>
+          </div>
+          <div *ngIf="selectAllOrSubOrResource.value == 'subContainer'">
+            <idm-select-entities-widget [widgetId]="resourceSubcontainerId" [initWidgetConfig]="initSubcontainerWidget" [(initSelectedItems)]="selectedResourceSubcontainer.value"
+              [(touched)]="selectedResourceSubcontainerTouched" [(focusedout)]="selectedResourceSubcontainerFocusedout">
+            </idm-select-entities-widget>
+          </div>
+        </div>
+        <div class="form-group"
+        [ngClass]="{'has-error': selectedResourceTouched && selectedResourceFocusedout && !selectedResource.valid , 
+        'has-success': selectedResourceTouched && selectedResourceFocusedout && selectedResource.valid }">
+          <div class="radio">
+            <label>
+              <input type="radio" value="resourceSelected" (change)="radioTypeChanged()" formControlName="selectAllOrSubOrResource" name="selectAllOrSubOrResource">
+              <span class="rb-label" translate>
+                Select Resources
+              </span>
+            </label>
+          </div>
+          <div *ngIf="selectAllOrSubOrResource.value == 'resourceSelected'">
+            <idm-select-entities-widget [widgetId]="selectResourcesId" [initWidgetConfig]="initselectResourceWidget" [(initSelectedItems)]="selectedResource.value" [(touched)]="selectedResourceTouched"
+              [(focusedout)]="selectedResourceFocusedout"></idm-select-entities-widget>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="form-group">
+          <label translate>
+            <span class="ng-scope">Select Permissions</span>
+          </label>
+          <ul class="list-selection-single permissions-group">
+            <li *ngFor="let resource of this.resourcePermissions; let i = index;">
+              <label class="checkbox-inline list-item">
+                <input type="checkbox" (change)="onChange(resource, $event.target.checked)">
+                <span class="checkbox-label">{{resource.permissionLabel}}</span>
+              </label>
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

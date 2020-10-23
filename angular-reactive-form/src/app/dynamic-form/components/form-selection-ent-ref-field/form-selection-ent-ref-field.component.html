@@ -1,0 +1,14 @@
+<div class="row" [hidden]="config.hide">
+  <div class="col-sm-12">
+    <div class="form-group" [ngClass]="{'has-error' : config.touched && config.focusedout && (config.isRequired == 'true' && config.attributeValues.length <= 0), 'has-success': config.touched && config.focusedout && (config.attributeValues.length > 0)}">
+      <label>{{config.displayLabel}}<span *ngIf="config.isRequired == 'true'">*</span></label>
+      <idm-select-entities-widget [formControl]="group.controls[config.key]" [initWidgetConfig]="config.selectionWidgetInitSchema" [(initSelectedItems)]="config.attributeValues"
+        [selectedEntitlement]="config.selectedElement" [(touched)]="config.touched" [(focusedout)]="config.focusedout"
+        ngDefaultControl>
+      </idm-select-entities-widget>
+      <p class="help-block" *ngIf="config.touched && config.focusedout && (config.isRequired == 'true' && config.attributeValues.length <= 0)">
+        <span>{{config.displayLabel}}<span translate> is required</span></span>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div>
+  <label translate>Select Authorized Objects</label>
+  <form [formGroup]="AddRolePermissionForm" novalidate name="AddRolePermissionForm">
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <div class="form-group">
+          <div class="radio">
+            <label>
+              <input type="radio" value="levelSelected" (change)="typeChanged()" formControlName="selectLevelOrRole" name="selectLevelOrRole">
+              <span class="rb-label" translate>
+                Role Level
+              </span>
+            </label>
+          </div>
+          <select (change)="createPermissionIdArray()" *ngIf="selectLevelOrRole.value == 'levelSelected'" class="form-control" formControlName="level">
+            <option value="0" translate>All Role Levels</option>
+            <option *ngFor="let role of this.roleLevel?.roleLevels;let i = index" value={{role.level}} >
+              {{role.name}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="level.value != 0  && selectLevelOrRole.value == 'levelSelected'">
+          <label translate>Role Container</label>
+          <idm-select-entities-widget [widgetId]="selectorRoleSubContainerId" [initWidgetConfig]="initRoleSubcontainerWidget" [(initSelectedItems)]="selectedRoleSubcontainer.value"
+            [selectedRoleLevel]="level.value"></idm-select-entities-widget>
+          <small class="input-hint" translate>Role container is an optional directory container under the role level where the new role will be stored. Role Containers can be used to secure access to roles.
+          </small>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': selectedRoleTouched && !selectedRole.valid , 'has-success': selectedRoleTouched  && selectedRole.valid }">
+          <div class="radio">
+            <label>
+              <input type="radio" value="roleSelected" (change)="typeChanged()" formControlName="selectLevelOrRole" name="selectLevelOrRole">
+              <span class="rb-label" translate>
+                Select Roles
+              </span>
+            </label>
+          </div>
+          <div *ngIf="selectLevelOrRole.value == 'roleSelected'">
+            <idm-select-entities-widget [widgetId]="selectorRoleId" [initWidgetConfig]="initselectRoleWidget" [(initSelectedItems)]="selectedRole.value"
+              [(touched)]="selectedRoleTouched"></idm-select-entities-widget>
+          </div>
+        </div>
+        <p class="help-block" *ngIf="selectedRoleTouched  && !selectedRole.valid && selectLevelOrRole.value == 'roleSelected' ">
+          <span *ngIf="selectedRole.hasError('emptyArray')" translate>Role is required</span>
+        </p>
+      </div>
+
+
+
+
+      <div class="col-xs-12 col-md-6">
+        <div class="form-group">
+          <label translate>
+            <span class="ng-scope" translate>Select Permissions</span>
+          </label>
+          <ul class="list-selection-single permissions-group">
+            <li *ngFor="let role of this.rolePermissions; let i = index;">
+              <label class="checkbox-inline list-item">
+                <input type="checkbox" (change)="onChange(role, $event.target.checked)">
+                <span class="checkbox-label">{{role.permissionLabel}}</span>
+              </label>
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

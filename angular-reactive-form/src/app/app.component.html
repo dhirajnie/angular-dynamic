@@ -1,0 +1,12 @@
+Hello
+
+<input type="file" (change)="onChange($event)">
+
+<button (click)="parseXML()">Retry</button>
+<div class="container" *ngIf="populateform">
+  Form:
+  <form [formGroup]="createEntityForm" name="createEntityForm">
+    <dynamic-form [config]="formInputList" [parentForm]="createEntityForm"></dynamic-form>
+
+  </form>
+</div>

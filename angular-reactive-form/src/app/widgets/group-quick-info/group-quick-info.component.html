@@ -1,0 +1,21 @@
+<div class="modal modal-size-sm" id="{{'groupQuickInfo_'+widgetID}}" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" *ngIf="!pageLoading">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="icon icon-size-lg icon-group"></i> Group Members
+        </div>
+        <button type="button" class="close" (click)="close()">
+          <span class="sr-only" translate>Close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <idm-loading [tableLoading]="pageLoading"></idm-loading>
+        <idm-table *ngIf="!pageLoading" [tableConfigObject]="tableConfigObject" (elementClicked)="elementClicked($event)" (tableConfigObjectChange)="paginationEvent($event)"
+          [tableName]="'Group Members'|translate" (onActionButtonClick)="tableActionButtonClicked($event)" (onRowSelection)="rowSelected($event)"
+          (sortBy)="sortTableData($event)" [checkbox]="false"></idm-table>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,43 @@
+<!-- <a *ngIf="container.arraySize > 0; else no_child_name" class="spacer-in-left-sm">
+    <span class="icon icon-container spacer-out-none"></span>
+    <i class="icon icon-right spacer-out-none" (click)="toggleContainer();$event.stopPropagation()"></i>
+    <span>{{container.name}}</span>
+    this
+</a>
+<ng-template #no_child_name>
+  <a class="spacer-in-left-sm">
+    <div class="left">
+      <span class="icon icon-container"></span>
+      <i class="icon spacer-out-none" [ngClass]="{'icon-down': isExpanded(), 'icon-right': !isExpanded()}" (click)="toggleContainer();$event.stopPropagation()"></i>
+    </div>
+    <div class="right">
+      <span>{{container.name}}</span>
+    </div>
+  </a>
+</ng-template> -->
+
+<a class="spacer-in-left-sm">
+  <div class="left">
+    <span class="icon icon-container"></span>
+    <i class="icon spacer-out-none" [ngClass]="{'icon-down': isExpanded(), 'icon-right': !isExpanded()}" (click)="toggleContainer();$event.stopPropagation()"></i>
+  </div>
+  <div class="right">
+    <span [ngClass]="{'text-bold': isRoot && !isRootSelectable}">{{container.name}}</span>
+  </div>
+</a>
+
+<ul class="tree-list-group loading" *ngIf="loadingSubContainers">
+  <li class="spacer-out-v-xs small"><span translate>Loading sub containers...</span></li>
+</ul>
+
+<ul class="tree-list-group" *ngIf="!loadingSubContainers && error">
+  <li class="space-out-v-xs alert alert-danger center-text small"><span>{{errorMessage}}</span></li>
+</ul>
+
+<ul class="tree-list-group" *ngIf="!loadingSubContainers && !error" [hidden]="!expanded">
+  <li *ngFor="let item of container.subContainers; let i = index" (click)="isInSelectedContainer(item)?$event.stopPropagation(): onAddItem(item);$event.stopPropagation()"
+    [ngClass]="{'tree-list-item-selected disabled':isInSelectedContainer(item)}">
+    <idm-container-tree [container]="item" (addItem)="onAddItem($event)" [selectedItems]="selectedItems" [isRoot]="false">
+    </idm-container-tree>
+  </li>
+</ul>

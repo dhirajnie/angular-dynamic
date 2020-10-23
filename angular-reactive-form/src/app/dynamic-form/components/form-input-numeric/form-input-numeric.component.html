@@ -1,0 +1,13 @@
+<div class="row" [hidden]="config.hide">
+    <div class="col-sm-6">
+        <div class="form-group" [ngClass]="{'has-error' : group.controls[config.key].errors && (group.controls[config.key].dirty || group.controls[config.key].touched), 'has-success':!group.controls[config.key].errors && !group.controls[config.key].pristine}">
+            <label>{{ config.displayLabel }}<span *ngIf="config.isRequired == 'true'">*</span></label>
+            <input type="text" class="form-control" [attr.placeholder]="config.placeholder" [formControl]="group.controls[config.key]"
+                [required]="config.isRequired == 'true'" pattern="^[-]?[0-9]+"/>
+            <p class="help-block" *ngIf="group.controls[config.key].errors && (group.controls[config.key].dirty || group.controls[config.key].touched)">
+                <span *ngIf="group.controls[config.key].hasError('required')">{{config.displayLabel}}<span translate> is required</span></span>
+                <span *ngIf="group.controls[config.key].hasError('pattern')">{{config.displayLabel}} <span translate> is invalid</span></span>
+            </p>
+        </div>
+    </div>
+</div>

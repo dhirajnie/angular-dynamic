@@ -1,0 +1,322 @@
+<div >
+  <section class="explorer" >
+    <section class="explorer-detail" >
+      <!--<idm-loading [tableLoading]="roleDetailsLoading"></idm-loading>-->
+      <article class="" >
+        <section class="body">
+          <div class="row">
+            <div class="col-sm-6">
+              <section class="header">
+                <div class="heading-page-third">
+                  <span translate>Mapped Resources</span>
+                  <!-- <button class="btn btn-icon" title="{{'Delete Mapped Resources' | translate}}" role="button" (click)="deleteConfirm()" [disabled]="!enableDelete()" >
+                    <i class="icon icon-trash"></i><span class="sr-only" translate>Delete Mapped Resources</span>
+                  </button> -->
+                  <button class="btn btn-icon" *ngIf="enableDelete()" title="{{'Clear Selection' | translate}}" role="button" (click)="clearSelection()" [disabled]="!enableDelete()" >
+                    <i class="icon icon-cancel"></i><span class="sr-only" translate>Clear Selection</span>
+                  </button>
+                </div>
+                <section class="form-input-search input-group spacer-out-bottom-sm">
+                  <label for="input-search" class="sr-only">Search Resources</label>
+                  <input type="text" (ngModelChange)="searchMappedResources($event)" #searchBy [(ngModel)]="searchQuery"
+                         class="form-control ng-pristine ng-untouched ng-valid" id="input-search"
+                         placeholder="{{'Search name, category, role level, description'|translate}}"
+                         aria-label="Search request, task, recipient, or assigned to me">
+                   <span class="input-group-btn" style="padding-left: 10px;">
+                      <button type="button"  data-toggle="modal" data-target="#filterMappedResources"class="btn btn-icon dropdown-toggle"  role="button" ><i class="icon icon-filter"></i><span class="sr-only" translate=""><span class="ng-scope">Filter</span></span></button>
+                  </span>
+                </section>
+              </section>
+              <idm-loading [tableLoading]="roleDetailsLoading"></idm-loading>
+              <section *ngIf="!roleDetailsLoading" class="explorer-panel spacer-in-sm droppable-container" [dragula]='"selected-resource-bag"' [dragulaModel]='mappedResources' >
+                <div *ngIf="BackupmappedResources.length <= 0 && resOrEntToBeMapped.length <= 0 ">
+                  <div class="explorer-pane-pagination">
+                    <div class="explorer-pane-pagination-content">
+                      <span class="label-text spacer-in-sm" *ngIf="mappedResources.length <= 0"  translate>No mapped resources or entitlements</span>
+                    </div>
+                  </div>
+                </div>
+                <div [ngClass]=" BackupmappedResources.length <= 0 && resOrEntToBeMapped.length <= 0 ? 'height-sm ':''">
+                  <div class="explorer-pane-pagination" *ngIf="resOrEntToBeMapped.length > 0">
+                    <div class="explorer-pane-pagination-content">
+                      <span class="pagination-explorer-position" translate>Unsaved mappings</span>
+                    </div>
+                  </div>
+                  <ul class="explorer-list height-auto maxheight-sm overflow-auto list-draggable"  *ngIf="resOrEntToBeMapped.length >0" id="resOrEntToBeMapped">
+                    <li class="resource list-draggable-item selected-tag-item " *ngFor='let item of resOrEntToBeMapped'>
+                      <button type="button" class="btn btn-sm btn-icon pull-right" role="button" title="Remove" (click)="deleteResourceMapped(item)">
+                        <i class="icon icon-cross-sm icon-cross"></i><span class="sr-only" translate>Remove</span>
+                      </button>
+                      <span class="icon icon-resource" title="{{'Resource' | translate}}"></span>{{item.name}}
+                        <span class="d-block" [translateParams]="{entValues:getEntValues(item.resourceParameters)}" translate>Values : [[entValues]]</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <div *ngIf="BackupmappedResources.length > 0 " >
+                    <div class="explorer-pane-pagination">
+                      <div class="explorer-pane-pagination-content">
+                        <span class="pagination-explorer-position" *ngIf="mappedResources.length > 0" [translateParams]="{mapResStartingFrom:startingFrom(),mapResEndingList:endingList()}" translate>Showing [[mapResStartingFrom]] - [[mapResEndingList]] of - resources or entitlements found</span>
+                        <span class="label-text spacer-in-sm" *ngIf="mappedResources.length <= 0"  translate>No mapped resources or entitlements</span>
+                        <button class="btn btn-pager-previous"  *ngIf=" prevIndex > 1 && mappedResources.length > 0" (click)="pagination('prev')"></button>
+                        <button class="btn btn-pager-next"  *ngIf="nextIndex > 0 && mappedResources.length > 0" (click)="pagination('next')"></button>
+                      </div>
+                    </div>
+                    <ul class="nodrag explorer-list height-sm overflow-auto list-draggable" >
+                      <ng-container  *ngFor='let item of mappedResources' >
+                        <li class="nodrag list-draggable-item selected-tag-item" *ngIf="alreadyMapped(item)">
+                          <button type="button" class="btn btn-sm spacer-in-top-none btn-icon pull-right" role="button" title="Remove" (click)="deleteResourceMapped(item)">
+                            <i class="icon icon-cross-sm icon-cross"></i><span class="sr-only" translate>Remove</span>
+                          </button>
+                          <span class="icon icon-resource" title="{{'Resource' | translate}}"></span>{{item.name}}
+                          <span class="d-block">{{'Mapping Description:'|translate}}{{item.mappingDescription}}</span>
+                          <ng-container *ngFor="let items2 of item?.entitlementValues;let i=index ">
+                            <div class="d-block">
+                              <span>{{items2.name}} :</span>
+                              <span class="d-inline-flex"><idm-ui-display [uiData]="items2.value" [isClickable]='false'></idm-ui-display></span>
+
+                            </div>
+                          </ng-container>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </div>
+                  <div *ngIf="BackupmappedResources.length <= 0 && resOrEntToBeMapped.length > 0 ">
+                    <div class="explorer-pane-pagination">
+                      <div class="explorer-pane-pagination-content">
+                        <span class="label-text spacer-in-sm" *ngIf="mappedResources.length <= 0"  translate>No mapped resources or entitlements</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </section>
+
+              <div class="form-group spacer-out-top-sm">
+                <label translate>Mapping Description*</label>
+                <input type="text" class="form-control" [(ngModel)]="mappingDescription" />
+                <div class="spacer-out-v-sm">
+                  <button type="button" [disabled]="!isValid()" class="btn btn-default" (click)="mapResources()"><span translate>Apply</span></button>
+                  <button type="button" class="btn btn-default" (click)="reset()"><span translate>Reset</span></button>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-sm-6">
+              <section class="header">
+                <div class="heading-page-third">
+                  <span translate>Available for Mapping</span>
+                </div>
+                <div class="tabs-simple">
+                  <ul class="nav nav-tabs">
+                    <li class="active">
+                      <a href="#1a" data-toggle="tab" (click)="toggleTabs('res')"><span translate>Resources</span></a>
+                    </li>
+                    <li><a href="#2a" data-toggle="tab" (click)="toggleTabs('ent')"><span translate>Entitlements</span></a>
+                    </li>
+                  </ul>
+                  <div class="tab-content ">
+                    <div class="tab-pane active" id="1a" >
+                      <label for="input-search" class="sr-only">Search Resources</label>
+                      <!-- <div class="form-group" >
+                         <label for="reason">Entitlement or Driver</label>
+                         <idm-select-entities-widget  [initWidgetConfig]="crDriverOrEntitlementWidget" [(initSelectedItems)]="crDriverOrEntitlement"
+                         [(touched)]="crDriverOrEntitlementTouched"></idm-select-entities-widget>
+                         </div> -->
+                      <ng-container *ngIf="showResourceList || showResourceOfDriverList">
+                        <idm-select-entities-widget [initWidgetConfig]="selectDrivers" [dropDownList]="DriversList"></idm-select-entities-widget>
+                      </ng-container>
+                    </div>
+                    <div class="tab-pane" id="2a" >
+                      <form>
+                        <div class="row" >
+                          <div class="col-sm-12">
+                            <div class="form-group" >
+                              <label for="reason" translate>Entitlement or Driver</label>
+                              <ng-container *ngIf="showEntitlementList">
+                                <idm-select-entities-widget [initWidgetConfig]="crDriverOrEntitlementWidget" [(initSelectedItems)]="crDriverOrEntitlement"
+                                                          [(touched)]="crDriverOrEntitlementTouched"></idm-select-entities-widget>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="driverOrEntitlementDetailsLoaded && logicalSystemsDropDownList != undefined && logicalSystemsDropDownList.length > 0">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label for="logicalSystem" translate>Logical System</label>
+                              <idm-select-entities-widget [initWidgetConfig]="logicalSystemConfig" [(initSelectedItems)]="logicalSystems" [dropDownList]="logicalSystemsDropDownList"></idm-select-entities-widget>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="explorer-pane spacer-in-sm" *ngIf="(showResourceList || showResourceOfDriverList)">
+                <div *ngIf="showResourceList">
+                  <input type="text" class="form-control" id="input-search"
+                    (ngModelChange)="searchResources($event)" #searchResBy [(ngModel)]="resQuery"
+                      placeholder="{{'Search by name or description' | translate}}">
+                  <div *ngIf="!resourceLoading" class="explorer-pane-pagination">
+                    <div class="explorer-pane-pagination-content" *ngIf="resourceArraySize>0">
+                      <span class="pagination-explorer-position" [translateParams]="{resourcesStartingFromValue:resourcesStartingFrom(),resourcesEndingListValue:resourcesEndingList()}" translate >Showing [[resourcesStartingFromValue]] - [[resourcesEndingListValue]] of - resources found</span>
+                      <button class="btn btn-pager-previous"  *ngIf=" resourcePrevIndex > 1 " (click)="resourcePagination('prev')"></button>
+                      <button class="btn btn-pager-next"  *ngIf="resourceNextIndex > 0" (click)="resourcePagination('next')"></button>
+                    </div>
+                    <div class="explorer-pane-pagination-content"  *ngIf="resourceArraySize<=0">
+                      <span class="pagination-explorer-position" >
+                        No Resources found.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="showResourceOfDriverList">
+                  <input type="text" class="form-control" id="input-driver-res-search"
+                    (ngModelChange)="searchDriverResources($event)" #searchDriverResBy [(ngModel)]="driverResQuery"
+                    placeholder="{{'Search by name or description' | translate}}">
+                  <div *ngIf="!resourceLoading" class="explorer-pane-pagination">
+                    <div class="explorer-pane-pagination-content" *ngIf="resDriverArraySize > 0">
+                      <span class="pagination-explorer-position" [translateParams]="{driverResStartingFrom:driverResStartingFrom(),driverResEndingList:driverResEndingList()}" translate>Showing [[driverResStartingFrom]] - [[driverResEndingList]] of - resources found</span>
+                      <button class="btn btn-pager-previous"  *ngIf="driverResPrevIndex > 1 " (click)="driverResPagination('prev')"></button>
+                      <button class="btn btn-pager-next"  *ngIf="driverResNextIndex > 0" (click)="driverResPagination('next')"></button>
+                    </div>
+                    <div class="explorer-pane-pagination-content"  *ngIf="resDriverArraySize <= 0">
+                      <span class="pagination-explorer-position" translate>
+                        No Resources found.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <idm-loading [tableLoading]="resourceLoading"></idm-loading>
+                <ul #selectedResContainer class="explorer-list height-md overflow-auto list-draggable" [dragula]='"selected-resource-bag"' id="ResourceList"
+                    [dragulaModel]='ResourceList'>
+                  <li class="resource list-draggable-item selected-tag-item {{item.addClass}}" *ngFor='let item of ResourceList' id={{item.id}}>
+                    <span class="icon icon-resource" title="{{'Resource' | translate}}"></span>{{item.name}}
+                  </li>
+                </ul>
+              </section>
+              
+            <section class="explorer-pane spacer-in-sm" *ngIf="showEntitlementList && getSelectedDriverOrEntitlementDetails() != null">
+                <input type="text" class="form-control" id="input-search"
+                (ngModelChange)="searchEntitlements($event)" #searchEnt [(ngModel)]="entQuery"
+                  placeholder="Search name">
+                <idm-loading [tableLoading]="resourceLoading"></idm-loading>
+              <ng-container *ngIf="!resourceLoading">
+                <div class="explorer-pane-pagination">
+                  <div class="explorer-pane-pagination-content" *ngIf="entitlementValues.entitlements.length > 0">
+                    <span class="pagination-explorer-position" [translateParams]="{entitlementsStartingFrom:entitlementsStartingFrom(),entitlementsEndingList:entitlementsEndingList()}" translate>Showing [[entitlementsStartingFrom]] - [[entitlementsEndingList]] of - entitlements found</span>
+                    <button class="btn btn-pager-previous"  *ngIf="entitlementPrevIndex > 1 " (click)="entitlementPagination('prev')"></button>
+                    <button class="btn btn-pager-next" *ngIf="entitlementNextIndex > 0" (click)="entitlementPagination('next')"></button>
+                  </div>
+                  <div class="explorer-pane-pagination-content" *ngIf="entitlementValues.entitlements.length <= 0">
+                    <span class="pagination-explorer-position" >
+                      No entitlements found.
+                    </span>
+                  </div>
+                </div>
+                <ul #selectedEntContainer class="explorer-list height-md overflow-auto list-draggable" [dragula]='"selected-resource-bag"' id="entitlementValues"
+                    [dragulaModel]='entitlementValues.entitlements'>
+                  <li class="entitlement list-draggable selected-tag-item {{item.addClass}}" *ngFor='let item of entitlementValues.entitlements' id={{item.id+item.value}}>
+                    <span class="icon icon-resource-assigned" title="{{'Entitlement' | translate}}"></span>{{item.name}}
+                    <span [hidden]="item.description == undefined || item.description == null || item.description == ''">
+                      <br/><span class="small text-watermark height-ellipsis" title="{{item.description}}">{{item.description}}</span>
+                    </span>
+                  </li>
+                </ul>
+              </ng-container>
+            </section>
+            </div>
+          </div>
+          <div *ngIf="mapEntitlementModal && entitlement.entName != undefined && entitlement.resources != undefined">
+            <idm-map-entitlement-to-role [entitlement]="entitlement" (mapEntitlement)="mapEntitlementEvent($event)"></idm-map-entitlement-to-role>
+          </div>
+          <div *ngIf="mapResourceWithFormModal">
+            <idm-map-resource-with-form-to-role [resourceWithForm]="resourceWithForm" (mapResourceWithFormEvent)="mapResourceWithFormEvent($event)"></idm-map-resource-with-form-to-role>
+          </div>
+        </section>
+      </article>
+    </section>
+  </section>
+  <idm-confirmation-widget [(showModal)]="showDeleteConfirmModaal" [mainHeading]="deleteMappedResourceMessage" (onConfirmation)="deleteMappedREsource()" ></idm-confirmation-widget>
+  <div class="modal " id="additionalInfo">
+    <div class="modal-dialog modal-lg">
+      <form name="additionalInfoForm" novalidate [formGroup]="additionalInfoForm" (ngSubmit)="addDynamicResource()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            <h4 class="modal-title" id="additionalInfoModal"><span translate>Additional information required</span></h4>
+          </div>
+          <div class="modal-body" *ngIf="mapDynamicResources">
+            <div *ngFor="let res of mapDynamicResources; let i=index" mapDynamicResources>
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <label translate>Resource name</label>
+                    <div>
+                      <label class="label-section-value">{{res?.name}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <label translate>Entitlement name</label>
+                    <div>
+                      <label class="label-section-value">{{res?.entitlementValues[0].name}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="res?.entitlementValues">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label translate>Entitlement value*</label>
+                    <idm-select-entities-widget formControlName="dynamicResEnt" [initWidgetConfig]="dynamicEntValuesConfig" [(initSelectedItems)]="dynamicResourceEntValue"
+                                                [selectedEntitlement]="dynamicResourceEntValuesPayload" [(touched)]="entitlementValuesTouched" [(focusedout)]="entitlementValuesFocusedout" ngDefaultControl>
+                    </idm-select-entities-widget>
+                    <p class="help-block" *ngIf="!res?.entitlementValues.valid && (resentitlementValuesTouched && entitlementValuesFocusedout)">
+                      <span *ngIf="res.entitlementValues.hasError('emptyArray')" translate>Entitlement Value is required</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-default" [disabled]="additionalInfoForm?.invalid"><span translate>Apply</span></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span translate>Cancel</span></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal " id="filterMappedResources">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="filterMappedResources('')" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel" translate=""><span class="ng-scope" translate>Filter Mapped Resources</span></h4>
+      </div>
+      <div class="modal-body">
+        <div  class="form-group" >
+          <label translate>Driver :</label>
+          <select class="form-control" [(ngModel)]="driverFilter">
+            <option value=""><span translate>Select a driver</span></option>
+            <option value="{{driver.id}}" *ngFor="let driver of  DriversList">{{driver.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" [disabled]="driverFilter == ''" data-dismiss="modal" (click)="filterMappedResources(driverFilter)"><span translate>Filter</span></button>
+        <button type="button" class="btn btn-default" (click)="clearMappedResourcesFilters()"><span class="ng-scope" translate>Clear</span></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" (click)="filterMappedResources('')"><span class="ng-scope" translate>Cancel</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+

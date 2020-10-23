@@ -1,0 +1,39 @@
+<form name="permissionsForm" novalidate [formGroup]="permissionsForm">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-6">
+      <label translate>Select Authorized Objects</label>
+      <div class="radio">
+        <label>
+          <input type="radio" name="radio-selection" [formControl]="radioSelection" value="{{radioOptions[0].key}}" />
+          <span class="rb-label">{{radioOptions[0].label}}</span>
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="radio-selection" [formControl]="radioSelection" value="{{radioOptions[1].key}}" />
+          <span class="rb-label">{{radioOptions[1].label}}</span>
+        </label>
+      </div>
+      <div *ngIf="!isSelectAll()" class="form-group" [ngClass]="{'has-error': selectedSodsTouched && selectedSodsFocusedout && !selectedSods.valid, 'has-success': selectedSodsTouched && selectedSodsFocusedout && selectedSods.valid}">
+        <idm-select-entities-widget [widgetId]="sodSelectorID" [initWidgetConfig]="selectedSodsConfig" [(initSelectedItems)]="selectedSods.value" [(touched)]="selectedSodsTouched"
+          [(focusedout)]="selectedSodsFocusedout"></idm-select-entities-widget>
+        <p class="help-block" *ngIf="selectedSodsTouched && selectedSodsFocusedout && !selectedSods.valid">
+          <span *ngIf="selectedSods.hasError('emptyArray')" translate>SoD is required</span>
+        </p>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-6">
+      <label translate>Select Permissions</label>
+      <ul class="list-selection-single">
+        <ng-container *ngFor="let permission of permissions; let i = index">
+          <li *ngIf="isPermissionVisible(permission)">
+            <label class="checkbox-inline list-item">
+              <input type="checkbox" class="form-control" [formControl]="permissionsFormArray.controls[i]" />
+              <span class="checkbox-label">{{permission.permissionLabel}}</span>
+            </label>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</form>

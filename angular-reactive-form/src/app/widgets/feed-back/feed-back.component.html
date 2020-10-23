@@ -1,0 +1,92 @@
+<div class="alert spacer-out-top-md ng-scope feedback-position" id="globalFeedBack" [ngClass]="alertType">
+	<button type="button" class="close" aria-label="Close" (click)="close()"></button>
+	<ng-template [ngIf]="treeNotification">
+		<div *ngIf="displayMessage.hasOwnProperty('succeeded') && displayMessage.succeeded.length >= 0">
+				<div  id="sucessAccordion">
+					<h4 class="panel-title">
+						<div class="alert-heading spacer-out-bottom-sm">
+							<a data-toggle="collapse" data-parent="#sucessAccordion" class="accordion-toggle collapsed " href="#sucess">
+								<span translate>Success</span>({{displayMessage.succeeded.length}})
+							</a>
+						</div>
+					</h4>
+					<div id="sucess" class="panel-collapse collapse">
+						<div  class="panel-body">
+							<ng-container *ngFor="let succeeded of displayMessage?.succeeded let i=index">
+								<div id="childsucess">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#childsucess"  class="accordion-toggle collapsed" href="#collapse_s{{i}}">{{(succeeded.name|| succeeded.id)|CNFromDN}}</a>
+									</h4>
+									<div id="collapse_s{{i}}" class="panel-collapse collapse">
+										<div class="panel-body">
+											{{succeeded.id|CNFromDN}}
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+
+				</div>
+		</div>
+		<div *ngIf="displayMessage.hasOwnProperty('failed') && displayMessage.failed.length >= 0">
+			<div  id="failedAccordion">
+					<h4 class="panel-title">
+						<div class="alert-heading spacer-out-bottom-sm">
+							<a data-toggle="collapse" data-parent="#failedAccordion" class="accordion-toggle collapsed" href="#failed">
+								<i class="feedback-expand"></i> failed({{displayMessage.failed.length}})
+							</a>
+						</div>
+					</h4>
+					<div id="failed" class="panel-collapse collapse">
+						<div  class="panel-body">
+							<ng-container *ngFor="let failed of displayMessage?.failed let i=index">
+								<div id="childfailed">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#childfailed"   class="accordion-toggle collapsed " href="#collapse_f{{i}}">{{(failed.name || failed.id)|CNFromDN}}</a>
+									</h4>
+									<div id="collapse_f{{i}}" class="panel-collapse collapse">
+										<div class="panel-body">
+											{{(failed.reason || failed.id)|CNFromDN}}
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+
+				</div>
+		</div>
+		<div *ngIf="displayMessage.hasOwnProperty('sods') && displayMessage.sods.length >= 0">
+			<div id="sodsAccordion">
+				<h4 class="panel-title">
+					<div class="alert-heading spacer-out-bottom-sm">
+						<a data-toggle="collapse" data-parent="#sodsAccordion" class="accordion-toggle collapsed" href="#sods">
+								<i class=" feedback-expand"></i> sods({{displayMessage.sods.length}})
+							</a>
+					</div>
+				</h4>
+				<div id="sods" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ng-container *ngFor="let sod of displayMessage?.sods let i=index">
+							<div id="childsods">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#childsods" class="accordion-toggle collapsed " href="#collapse_sod{{i}}">{{sod.sodName}}</a>
+								</h4>
+								<div id="collapse_sod{{i}}" class="panel-collapse collapse">
+									<div class="panel-body">
+										<i>Conflicting Roles :</i> <b>{{sod.perm1Name}}</b> and <b>{{sod.perm2Name}}</b>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</ng-template>
+	<ng-template [ngIf]="!treeNotification">
+		{{displayMessage}}
+	</ng-template>
+</div>
