@@ -24,6 +24,8 @@ import { FormInputDateTimeComponent } from './components/form-input-date-time/fo
 
 import { FormInputListComponent } from './components/form-input-list/form-input-list.component';
 import { DateRangePickerModule } from '../widgets/date-range-picker/date-range-picker.module';
+import { GroupContainerComponent } from './components/group-container/group-container.component';
+import { SubordinatesComponent } from './components/subordinates/subordinates.component';
 // declare var jQuery :any
 
 
@@ -52,6 +54,8 @@ import { DateRangePickerModule } from '../widgets/date-range-picker/date-range-p
     FormInputFileComponent,
     FormInputDateTimeComponent,
     FormInputListComponent,
+    GroupContainerComponent,
+    SubordinatesComponent,
   ],
   exports: [
     DynamicFormComponent
@@ -69,7 +73,9 @@ import { DateRangePickerModule } from '../widgets/date-range-picker/date-range-p
     FormSelectionEntRefFieldComponent,
     FormInputFileComponent,
     FormInputDateTimeComponent,
-    FormInputListComponent
+    FormInputListComponent,
+    GroupContainerComponent,
+    SubordinatesComponent,
   ]
 })
 export class DynamicFormModule { }

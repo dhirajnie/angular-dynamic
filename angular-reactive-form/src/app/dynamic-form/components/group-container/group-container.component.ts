@@ -1,43 +1,37 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { FieldConfig } from "../../models/field-config.schema";
-import { VariableService } from "../../../shared/services/utilities/util_variable/variable.service";
-import { ValidationService } from '../../../shared/services/utilities/util_validation/validation.service';
-// declare var jQuery :any
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ValidationService } from 'src/app/shared/services/utilities/util_validation/validation.service';
+import { VariableService } from 'src/app/shared/services/utilities/util_variable/variable.service';
+import { FieldConfig } from '../../models/field-config.schema';
 
 @Component({
-  exportAs: 'dynamicForm',
-  selector: 'dynamic-form',
-  styleUrls: ['dynamic-form.component.css'],
-  templateUrl: 'dynamic-form.component.html'
+  selector: 'app-group-container',
+  templateUrl: './group-container.component.html',
+  styleUrls: ['./group-container.component.css']
 })
-export class DynamicFormComponent implements OnChanges, OnInit {
-  @Input()
-  config: FieldConfig[] = [];
+export class GroupContainerComponent implements OnInit {
 
-  @Input()
-  isMultiAssignable: Boolean;
-
-  @Input()
-  parentForm: FormGroup;
-
+  config: FieldConfig;
+  childConfig: FieldConfig[];
+  get controls() { return this.childConfig.filter(({ dataType }) => dataType !== 'button'); }
+  group: FormGroup;
   @Output() fieldChanges = new EventEmitter();
-
-  get controls() { return this.config.filter(({ dataType }) => dataType !== 'button'); }
-
   constructor(private fb: FormBuilder, private variableService: VariableService) { }
 
+
+
   ngOnInit() {
-    this.parentForm = this.createGroup();
+    this.group = this.createGroup();
+
   }
 
   ngOnChanges() {
-    this.parentForm = this.createGroup();
+    this.group = this.createGroup();
   }
 
   createGroup() {
     this.controls.forEach((control) => {
-      this.parentForm.addControl(control.key, this.createControl(control));
+      this.group.addControl(control.key, this.createControl(control));
       if (control.dataType == 'DN') {
         let attributeValues: any = [];
         if (!this.variableService.isUndefinedOrNull(control.attributeValues)) {
@@ -46,40 +40,40 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             attributeValues.push(control.attributeValues);
             control.attributeValues = attributeValues;
           }
-          this.parentForm.controls[control.key].setValue(control.attributeValues);
+          this.group.controls[control.key].setValue(control.attributeValues);
         } else {
-          this.parentForm.controls[control.key].setValue(attributeValues);
+          this.group.controls[control.key].setValue(attributeValues);
         }
       } else {
         if (!this.variableService.isUndefinedOrNull(control.attributeValues) && control.attributeValues != "") {
           if (control.dataType == 'Boolean') {
             if (!this.variableService.isUndefinedOrNull(control.attributeValues.$)) {
-              this.parentForm.controls[control.key].setValue(JSON.parse(control.attributeValues.$));
+              this.group.controls[control.key].setValue(JSON.parse(control.attributeValues.$));
             }
             else {
-              this.parentForm.controls[control.key].setValue(control.attributeValues);
+              this.group.controls[control.key].setValue(control.attributeValues);
 
             }
           } else {
             if (!this.variableService.isUndefinedOrNull(control.attributeValues.$)) {
-              this.parentForm.controls[control.key].setValue(control.attributeValues.$);
+              this.group.controls[control.key].setValue(control.attributeValues.$);
             }
             else {
 
-              this.parentForm.controls[control.key].setValue(control.attributeValues);
+              this.group.controls[control.key].setValue(control.attributeValues);
             }
           }
         } else {
           if (!this.variableService.isUndefinedOrNull(control['type'])
             && control['type'].toLowerCase() === 'boolean') {
-            this.parentForm.controls[control.key].setValue(false);
+            this.group.controls[control.key].setValue(false);
           } else {
-            this.parentForm.controls[control.key].setValue('');
+            this.group.controls[control.key].setValue('');
           }
         }
       }
     });
-    return this.parentForm;
+    return this.group;
   }
 
   createControl(config: FieldConfig) {
@@ -125,4 +119,5 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   fieldChanged(view: any) {
     this.fieldChanges.emit(view);
   }
+
 }

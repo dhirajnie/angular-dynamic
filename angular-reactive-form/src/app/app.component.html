@@ -3,7 +3,7 @@ Hello
 <input type="file" (change)="onChange($event)">
 
 <button (click)="parseXML()">Retry</button>
-<div class="container" *ngIf="populateform">
+<div class="container">
   Form:
   <form [formGroup]="createEntityForm" name="createEntityForm">
     <dynamic-form [config]="formInputList" [parentForm]="createEntityForm"></dynamic-form>

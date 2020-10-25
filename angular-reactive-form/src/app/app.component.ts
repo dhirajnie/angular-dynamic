@@ -16,7 +16,7 @@ import { SubOrdinateInformation } from './SubOrdinateInformation';
 export class AppComponent implements OnInit {
   genders = ['male', 'female'];
   signUpForm: FormGroup;
-  formInputList: any[] = [];
+  formInputList: FieldConfig[] = [];
   createEntityForm = new FormGroup({});
   xmlInp: string;
   file: any;
@@ -28,19 +28,52 @@ export class AppComponent implements OnInit {
   populateform: boolean = false;
   ngOnInit() {
 
-    // this.signUpForm = new FormGroup({
-    //   'userData': new FormGroup({
-    //     'username': new FormControl('dhiraj', Validators.required),
-    //     'email': new FormControl(null, [Validators.required, Validators.email])
-    //   }),
-    //   'gender': new FormControl('male'),
-    //   'hobbies': new FormArray([])
-    // });
+    let ff = new FieldConfig();
+    ff.displayLabel = "my input";
+    ff.hide = false;
+    ff.dataType = "Group"
+    // ff.dataType = "String";
+    // ff.isEditable = "true";
+    ff.key = "sjak";
+    // ff.staticValue = 'dhiraj'
+    // ff.isMultivalued = 'true';
+    // // ff.selectedElement = 'one';
+    // ff.attributeValues = ['one', 'two', 'three'];
+
+    ff.children = [];
+    let f1 = new FieldConfig();
+    f1.displayLabel = 'first name '
+    f1.key = 'jka';
+    f1.dataType = 'String';
+    f1.staticValue = 'abcd';
+    f1.isEditable = 'false';
+    ff.hide = false;
+
+    let f2 = new FieldConfig();
+    f2.dataType = 'String'
+    f2.key = 'dadasdas';
+    f2.displayLabel = 'last name ';
+    f2.staticValue = 'shukls'
+    f2.isEditable = 'false';
+    ff.children.push(f1);
+    ff.children.push(f2);
 
 
 
-    this.parseXML();
-    this.populateform = false;
+    let ff1 = new FieldConfig();
+    ff1.dataType = 'String';
+    ff1.key = 'tyryry';
+    ff1.displayLabel = 'last name ';
+    ff1.staticValue = 'shukls'
+    ff1.isEditable = 'false';
+
+    this.formInputList.push(ff1);
+    this.formInputList.push(ff);
+
+
+
+    // this.parseXML();
+    // this.populateform = false;
     // this.popluateForm();
   }
 
@@ -170,35 +203,36 @@ export class AppComponent implements OnInit {
   createDefinition(definitionNode) {
 
 
-    let defintionType = 'String';
-    let definitionValue = '.';
-    if (definitionNode.getAttribute('type') === 'integer') {
-      defintionType = 'Integer';
-    }
-    else if (definitionNode.getAttribute('type') === 'string' || definitionNode.getAttribute('type') === 'enum') {
-      defintionType = 'String';
-    }
-    if (definitionNode.getElementsByTagName('value')[0] !== undefined && definitionNode.getElementsByTagName('value')[0].childNodes[0] !== undefined) {
-      definitionValue = "-   " + definitionNode.getElementsByTagName('value')[0].childNodes[0].nodeValue;
-    }
-    console.log("def value" + definitionValue)
-    // this.key += 1;
-    // let id = this.key * 10 + 5 * this.key;
-    this.formInputList.push({
-      "id": definitionNode.getAttribute('id'), "multiValue": false, "scope": "user", "binding": "static", "type": "String", "displayValue":
-        definitionNode.getAttribute('display-name'), "entitlementDn": "", "instance": true, "hide": false, "key": definitionNode.getAttribute('id'), "displayLabel": definitionNode.getAttribute('display-name'),
-      "isMultivalued": false, "dataType": defintionType, "isEditable": true, "parentType": "resource", "staticValue": definitionValue
-    });
-
-
+    //   let defintionType = 'String';
+    //   let definitionValue = '.';
+    //   if (definitionNode.getAttribute('type') === 'integer') {
+    //     defintionType = 'Integer';
+    //   }
+    //   else if (definitionNode.getAttribute('type') === 'string' || definitionNode.getAttribute('type') === 'enum') {
+    //     defintionType = 'String';
+    //   }
+    //   if (definitionNode.getElementsByTagName('value')[0] !== undefined && definitionNode.getElementsByTagName('value')[0].childNodes[0] !== undefined) {
+    //     definitionValue = "-   " + definitionNode.getElementsByTagName('value')[0].childNodes[0].nodeValue;
+    //   }
+    //   console.log("def value" + definitionValue)
+    //   // this.key += 1;
+    //   // let id = this.key * 10 + 5 * this.key;
+    //   this.formInputList.push({
+    //     "id": definitionNode.getAttribute('id'), "multiValue": false, "scope": "user", "binding": "static", "type": "String", "displayValue":
+    //       definitionNode.getAttribute('display-name'), "entitlementDn": "", "instance": true, "hide": false, "key": definitionNode.getAttribute('id'), "displayLabel": definitionNode.getAttribute('display-name'),
+    //     "isMultivalued": false, "dataType": defintionType, "isEditable": true, "parentType": "resource", "staticValue": definitionValue
   }
+  // );
+
+
+  // }
 
 
 
-  popluateForm() {
+  // popluateForm() {
 
-    this.formInputList = [{ "id": "param2", "multiValue": false, "scope": "user", "binding": "static", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "Field Label 1" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "String", "displayValue": "Field Label 1", "entitlementDn": "", "instance": true, "hide": false, "key": "param2", "displayLabel": "Field Label 1", "isMultivalued": false, "dataType": "String", "isEditable": true, "parentType": "resource" }, { "id": "param1", "multiValue": false, "scope": "user", "binding": "dynamic", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "apply changes" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "Boolean", "displayValue": "apply changes", "entitlementDn": "", "instance": true, "hide": false, "key": "param1", "displayLabel": "apply changes", "isMultivalued": false, "dataType": "Boolean", "isEditable": true, "parentType": "resource" }, { "id": "param3", "multiValue": false, "scope": "user", "binding": "static", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "Field Label 2" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "Integer", "displayValue": "Field Label 2", "entitlementDn": "", "instance": true, "hide": false, "key": "param3", "displayLabel": "Field Label 2", "isMultivalued": false, "dataType": "Integer", "isEditable": true, "parentType": "resource" }, { "id": "param4", "multiValue": false, "scope": "user", "binding": "static", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "Field Label 3" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "String", "displayValue": "Field Label 3", "entitlementDn": "", "staticValue": "ram", "instance": true, "hide": false, "key": "param4", "displayLabel": "Field Label 3", "isMultivalued": false, "dataType": "String", "isEditable": true, "parentType": "resource" }];
-  }
+  //   this.formInputList = [{ "id": "param2", "multiValue": false, "scope": "user", "binding": "static", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "Field Label 1" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "String", "displayValue": "Field Label 1", "entitlementDn": "", "instance": true, "hide": false, "key": "param2", "displayLabel": "Field Label 1", "isMultivalued": false, "dataType": "String", "isEditable": true, "parentType": "resource" }, { "id": "param1", "multiValue": false, "scope": "user", "binding": "dynamic", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "apply changes" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "Boolean", "displayValue": "apply changes", "entitlementDn": "", "instance": true, "hide": false, "key": "param1", "displayLabel": "apply changes", "isMultivalued": false, "dataType": "Boolean", "isEditable": true, "parentType": "resource" }, { "id": "param3", "multiValue": false, "scope": "user", "binding": "static", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "Field Label 2" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "Integer", "displayValue": "Field Label 2", "entitlementDn": "", "instance": true, "hide": false, "key": "param3", "displayLabel": "Field Label 2", "isMultivalued": false, "dataType": "Integer", "isEditable": true, "parentType": "resource" }, { "id": "param4", "multiValue": false, "scope": "user", "binding": "static", "localizedDisplayValues": [{ "locale": "zh_CN", "name": "" }, { "locale": "pt", "name": "" }, { "locale": "fr", "name": "" }, { "locale": "ru", "name": "" }, { "locale": "ja", "name": "" }, { "locale": "zh_TW", "name": "" }, { "locale": "it", "name": "" }, { "locale": "da", "name": "" }, { "locale": "de", "name": "" }, { "locale": "es", "name": "" }, { "locale": "en", "name": "Field Label 3" }, { "locale": "nb", "name": "" }, { "locale": "sv", "name": "" }, { "locale": "cs", "name": "" }, { "locale": "nl", "name": "" }], "type": "String", "displayValue": "Field Label 3", "entitlementDn": "", "staticValue": "ram", "instance": true, "hide": false, "key": "param4", "displayLabel": "Field Label 3", "isMultivalued": false, "dataType": "String", "isEditable": true, "parentType": "resource" }];
+  // }
 
   onSubmit() {
     console.log('hello')

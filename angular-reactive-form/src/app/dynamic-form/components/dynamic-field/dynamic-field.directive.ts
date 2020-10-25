@@ -22,6 +22,9 @@ import { FormInputDateTimeComponent } from '../form-input-date-time/form-input-d
 import { DatePickerOptionsAllDates } from '../../../shared/schemas/date-picker-options';
 
 import { FormInputListComponent } from './../form-input-list/form-input-list.component';
+import { GroupContainerComponent } from '../group-container/group-container.component';
+import { SubOrdinateInformation } from 'src/app/SubOrdinateInformation';
+import { SubordinatesComponent } from '../subordinates/subordinates.component';
 
 
 @Directive({
@@ -67,6 +70,7 @@ export class DynamicFieldDirective extends Field implements OnChanges, OnInit {
     this.component.instance.config = this.config;
     this.component.instance.group = this.group;
     this.component.instance.isMultiAssignable = this.isMultiAssignable;
+    this.component.instance.childConfig = this.config.children;
     if (!this.variableService.isEmptyString(this.component.instance.fieldChanged)) {
       this.component.instance.fieldChanged.subscribe(
         evt => this.fieldChanged.emit(evt)
@@ -152,6 +156,14 @@ export class DynamicFieldDirective extends Field implements OnChanges, OnInit {
         break;
       case 'Time': {
         component = FormInputStringComponent
+        break;
+      }
+      case 'Group': {
+        component = GroupContainerComponent;
+        break;
+      }
+      case 'Subordinates': {
+        component = SubordinatesComponent;
         break;
       }
       default:

@@ -5,6 +5,7 @@ import { EventEmitter } from "@angular/core";
 export class Field {
   config: FieldConfig;
   group: FormGroup;
-  fieldChanged : EventEmitter<any>;
+  childConfig: FieldConfig[];
+  fieldChanged: EventEmitter<any>;
   isMultiAssignable: Boolean;
 }

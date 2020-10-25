@@ -30,4 +30,6 @@ export class FieldConfig {
   clientId: string;
   controlType?: string;
   choiceList?: any;
+  children: FieldConfig[];
+  
 }
