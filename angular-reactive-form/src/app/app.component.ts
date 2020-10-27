@@ -17,7 +17,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   genders = ['male', 'female'];
   signUpForm: FormGroup;
-  formInputList: FieldConfig[] = [];
+  driverOptionsFormConfig: FieldConfig[] = [];
+  publisherOptionsFormConfig: FieldConfig[] = [];
+  subscriberOptionsFormConfig: FieldConfig[] = [];
   createEntityForm = new FormGroup({});
   xmlInp: string;
   file: any;
@@ -90,11 +92,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     let domParser = new DOMParser();
     let data = domParser.parseFromString(this.xmlInputString, 'application/xml');
     let driverOptionsXML = data.getElementsByTagName('driver-options')[0];
-    let driverParentOptions = { elementType: 'definitions', children: [] };
-    this.recur(driverOptionsXML, driverParentOptions);
+    let driverOptionsFormConfig = { elementType: 'definitions', children: [] };
+    this.recur(driverOptionsXML, driverOptionsFormConfig);
     // this.driverOptions = driverParentOptions;
     console.log('-----------------------------------');
-    console.log(driverParentOptions);
+    console.log(driverOptionsFormConfig);
 
     console.log('---------------------------------------');
     let subscriberOptionsXML = data.getElementsByTagName('subscriber-options')[0];
@@ -106,10 +108,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     let publisherOptionsXML = data.getElementsByTagName('publisher-options')[0];
     let publisherOptions = { elementType: 'definitions', children: [] };
+
     this.recur(publisherOptionsXML, publisherOptions);
     console.log(publisherOptions);
 
-    this.formInputList.push(...driverParentOptions.children)
+
+
+    this.driverOptionsFormConfig.push(...driverOptionsFormConfig.children);
+    this.subscriberOptionsFormConfig.push(...subscriberOptions.children);
+    this.publisherOptionsFormConfig.push(...publisherOptions.children)
+
     this.showDynForm = true;
 
   }
@@ -132,10 +140,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       if (curXMLNode.nodeName === 'group') {
         let group = this.createGroup(curXMLNode);
-        //  new Group();
-        // group.id = this.key.toString();
-        // ++this.key;
-
         parentElement.children.push(group);
         parentElement = group;
       }
@@ -176,15 +180,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log(curXMLNode.getAttribute('display-name'))
     let definition = new FieldConfig();
     definition.key = this.key.toString();
-    definition.dataType = "String";
+    // definition.dataType = "String";
     definition.hide = false;
     ++this.key;
 
     if (curXMLNode.getAttribute('type') === 'string') {
-
+      definition.dataType = "String";
     }
     else if (curXMLNode.getAttribute('type') === 'integer') {
-
+      definition.dataType = "Integer";
     }
     else if (curXMLNode.getAttribute('type') === 'enum') {
 
@@ -197,6 +201,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       definition.choiceList = choicesList;
       definition.controlType = 'fg';
+      definition.dataType = "String";
     }
     definition.isMultivalued = 'false';
     definition.isEditable = 'true';
@@ -219,6 +224,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     ++this.key;
     header.dataType = "String";
     header.displayLabel = curXMLNode.getAttribute('display-name');
+    header.staticValue = '';
+
     return header;
   }
 

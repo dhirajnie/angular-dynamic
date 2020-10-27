@@ -6,7 +6,17 @@ Hello
 <div class="container" *ngIf="showDynForm">
   Form:
   <form [formGroup]="createEntityForm" name="createEntityForm">
-    <dynamic-form [config]="formInputList" [parentForm]="createEntityForm"></dynamic-form>
+    <div style="margin-left: 10px;"><span style="background-color: skyblue;"> Driver Settings</span>
+      <dynamic-form [config]="driverOptionsFormConfig" [parentForm]="createEntityForm"></dynamic-form>
+    </div>
+    <div style="margin-left: 10px;"> <span style="background-color: skyblue;"> Subsciber
+        Settings </span>
+      <dynamic-form [config]="subscriberOptionsFormConfig" [parentForm]="createEntityForm"></dynamic-form>
+    </div>
+    <div style="margin-left: 10px;">
+      <span style="background-color: skyblue;"> Publisher Settings</span>
+      <dynamic-form [config]="publisherOptionsFormConfig" [parentForm]="createEntityForm"></dynamic-form>
 
+    </div>
   </form>
 </div>
