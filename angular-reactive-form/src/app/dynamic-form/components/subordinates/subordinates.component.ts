@@ -21,6 +21,7 @@ export class SubordinatesComponent implements OnInit {
 
   ngOnInit() {
     this.group = this.createGroup();
+    console.log('suboridinates selected' + this.config.subOridinateActiveValue);
 
   }
 

@@ -29,8 +29,49 @@ export class AppComponent implements OnInit, AfterViewInit {
   populateform: boolean = false;
   showDynForm: boolean = false;
   ngOnInit() {
+    let group = new FieldConfig();
+    group.key = this.key.toString();
+    group.dataType = "Group"
 
-    
+
+
+
+
+    // let definition = new FieldConfig();
+
+    // definition.key = this.key.toString();
+    // definition.dataType = "String";
+    // definition.hide = false;
+    // // definition.staticValue = 'abcd';
+    // definition.displayLabel = 'first name '
+    // definition.attributeValues = ['asv', 'a'];
+    // definition.choiceList = [{ "key": 'key1', "value": 'dp name' }, { "key": 'key2', "value": 'dp xyz' }];
+    // definition.controlType = 'fg';
+    // definition.isMultivalued = 'false';
+    // definition.isEditable = 'true';
+
+    // let sub1 = new FieldConfig();
+    // sub1.subOridinateActiveValue = 'dp name'
+    // sub1.dataType = 'Subordinates';
+    // sub1.key = this.key.toString();
+    // sub1.hide = false;
+
+
+    // let sub2 = new FieldConfig();
+    // sub2.subOridinateActiveValue = 'dp xyz'
+    // sub2.dataType = 'Subordinates';
+    // sub2.key = this.key.toString();
+    // sub2.hide = false;
+
+
+    // group.children.push(definition);
+    // group.children.push(sub1);
+    // group.children.push(sub2);
+
+
+    // this.formInputList.push(group);
+    // this.showDynForm = true;
+
   }
 
   fileUp(event) {
@@ -139,13 +180,33 @@ export class AppComponent implements OnInit, AfterViewInit {
     definition.hide = false;
     ++this.key;
 
+    if (curXMLNode.getAttribute('type') === 'string') {
+
+    }
+    else if (curXMLNode.getAttribute('type') === 'integer') {
+
+    }
+    else if (curXMLNode.getAttribute('type') === 'enum') {
+
+      let choicesList = new Array<{ key: string, value: string }>();
+      let enumChoicesXML = curXMLNode.getElementsByTagName('enum-choice');
+      for (let i = 0; i < enumChoicesXML.length; i++) {
+        let displayName = enumChoicesXML[i].getAttribute('display-name');
+        let enumValue = enumChoicesXML[i].childNodes[0].nodeValue;
+        choicesList.push({ key: enumValue, value: enumValue });
+      }
+      definition.choiceList = choicesList;
+      definition.controlType = 'fg';
+    }
+    definition.isMultivalued = 'false';
+    definition.isEditable = 'true';
     definition.displayLabel = curXMLNode.getAttribute('display-name');
     // definition.dataType = curXMLNode.getAttribute('type');
 
     if (curXMLNode.getElementsByTagName('value')[0] !== undefined && curXMLNode.getElementsByTagName('value')[0].childNodes[0] !== undefined)
-      definition.staticValue = curXMLNode.getElementsByTagName('value')[0].childNodes[0].nodeValue;
+      definition.attributeValues = curXMLNode.getElementsByTagName('value')[0].childNodes[0].nodeValue;
     else {
-      definition.staticValue = '';
+      definition.attributeValues = '';
     }
     // if (curXMLNode.getElementsByTagName('description')[0] !== undefined && curXMLNode.getElementsByTagName('description')[0].childNodes[0] !== undefined)
     // definition.definitionDescription = curXMLNode.getElementsByTagName('description')[0].childNodes[0].nodeValue;

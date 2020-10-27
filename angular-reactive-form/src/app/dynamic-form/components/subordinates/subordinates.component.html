@@ -1,10 +1,13 @@
 <!-- <div [formGroup]="parentForm"> -->
-Subordiante works
-<div style="margin-left: 10px;" [hidden]="config.hide">
-  <ng-container *ngFor="let field of childConfig;" dynamicField [config]="field" [isMultiAssignable]="isMultiAssignable"
-    [group]="group">
+<div [hidden]="config.hide">
+  suboridante {{this.config.subOridinateActiveValue}}
 
+  <div style="margin-left: 10px;">
+    <ng-container *ngFor="let field of childConfig;" dynamicField [config]="field"
+      [isMultiAssignable]="isMultiAssignable" [group]="group">
 
-  </ng-container>
+    </ng-container>
+  </div>
+
 </div>
 <!-- </div> -->

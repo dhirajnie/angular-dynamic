@@ -22,6 +22,17 @@ export class GroupContainerComponent implements OnInit {
 
   ngOnInit() {
     this.group = this.createGroup();
+    console.log('filtering subordinate')
+    // let activeValue = this.childConfig[0].staticValue;
+    // this.config.children.filter(x => x.dataType === 'Subordinates').forEach(fielConfig => {
+    //   if (fielConfig.subOridinateActiveValue === activeValue) {
+    //     fielConfig.hide = false;
+    //   }
+    //   else {
+    //     fielConfig.hide = true;
+    //   }
+    // })
+
 
   }
 
@@ -116,8 +127,16 @@ export class GroupContainerComponent implements OnInit {
     return this.fb.control({ value: config.attributeValues, disabled: !config.isEditable }, validation);
   }
 
-  // fieldChanged(view: any) {
-  //   this.fieldChanges.emit(view);
-  // }
+  definitionChanged(event) {
+    console.log('definion value changed inside group');
+    this.config.children.filter(x => x.dataType === 'Subordinates').forEach(fielConfig => {
+      if (fielConfig.subOridinateActiveValue === event) {
+        fielConfig.hide = false;
+      }
+      else {
+        fielConfig.hide = true;
+      }
+    })
+  }
 
 }

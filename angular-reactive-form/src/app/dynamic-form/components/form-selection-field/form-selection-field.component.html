@@ -2,7 +2,7 @@
     <div class="col-sm-6">
         <div class="form-group" [ngClass]="{'has-error' : config.isRequired == 'true' && isValueEmpty && (group.controls[config.key].dirty || group.controls[config.key].touched), 'has-success':config.isRequired == 'true' && !isValueEmpty  && !group.controls[config.key].pristine}">
             <label>{{ config.displayLabel }}<span *ngIf="config.isRequired == 'true'">*</span></label>
-            <select class="form-control" id="entitlementVal" [formControl]="group.controls[config.key]">
+            <select class="form-control" id="entitlementVal" [formControl]="group.controls[config.key]" >
                 <option value="" disabled selected ><p translate>select an option</p></option>
                 <option *ngFor="let e of values" [ngValue]="e">{{e.name || e.displayName}}</option>
             </select>

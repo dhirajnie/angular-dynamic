@@ -1,7 +1,8 @@
 <!-- <div [formGroup]="parentForm"> -->
+Group comp loaded
 <div style="margin-left: 10px;">
   <ng-container *ngFor="let field of childConfig;" dynamicField [config]="field" [isMultiAssignable]="isMultiAssignable"
-    [group]="group">
+    [group]="group" (fieldChanged)="definitionChanged($event)">
 
 
   </ng-container>
