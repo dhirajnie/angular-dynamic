@@ -9,7 +9,18 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./form-input-label.component.css']
 })
 
-export class FormInputLabelComponent extends Field {
+export class FormInputLabelComponent extends Field implements OnInit {
+  ngOnInit(): void {
+    console.log('init done ');
+  }
   config: FieldConfig;
   group: FormGroup;
+
+
+  onInit() {
+
+  }
+
+
+
 }

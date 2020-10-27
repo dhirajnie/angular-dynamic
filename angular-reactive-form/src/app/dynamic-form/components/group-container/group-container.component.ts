@@ -116,8 +116,8 @@ export class GroupContainerComponent implements OnInit {
     return this.fb.control({ value: config.attributeValues, disabled: !config.isEditable }, validation);
   }
 
-  fieldChanged(view: any) {
-    this.fieldChanges.emit(view);
-  }
+  // fieldChanged(view: any) {
+  //   this.fieldChanges.emit(view);
+  // }
 
 }

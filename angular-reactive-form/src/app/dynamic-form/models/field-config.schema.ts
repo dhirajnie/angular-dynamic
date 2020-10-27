@@ -31,5 +31,9 @@ export class FieldConfig {
   controlType?: string;
   choiceList?: any;
   children: FieldConfig[];
-  
+  constructor() {
+    this.children = [];
+  }
+  subOridinateActiveValue: string;
+
 }
