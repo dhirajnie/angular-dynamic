@@ -198,10 +198,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         let displayName = enumChoicesXML[i].getAttribute('display-name');
         let enumValue = enumChoicesXML[i].childNodes[0].nodeValue;
         choicesList.push({ key: enumValue, value: enumValue });
+        definition.dataType = "String";
       }
       definition.choiceList = choicesList;
       definition.controlType = 'fg';
-      definition.dataType = "String";
+
     }
     definition.isMultivalued = 'false';
     definition.isEditable = 'true';

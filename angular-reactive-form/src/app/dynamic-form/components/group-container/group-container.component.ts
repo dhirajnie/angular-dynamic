@@ -23,15 +23,15 @@ export class GroupContainerComponent implements OnInit {
   ngOnInit() {
     this.group = this.createGroup();
     console.log('filtering subordinate')
-    // let activeValue = this.childConfig[0].staticValue;
-    // this.config.children.filter(x => x.dataType === 'Subordinates').forEach(fielConfig => {
-    //   if (fielConfig.subOridinateActiveValue === activeValue) {
-    //     fielConfig.hide = false;
-    //   }
-    //   else {
-    //     fielConfig.hide = true;
-    //   }
-    // })
+    let attributeValues = this.childConfig[0].attributeValues;
+    this.config.children.filter(x => x.dataType === 'Subordinates').forEach(fielConfig => {
+      if (fielConfig.subOridinateActiveValue === attributeValues) {
+        fielConfig.hide = false;
+      }
+      else {
+        fielConfig.hide = true;
+      }
+    })
 
 
   }

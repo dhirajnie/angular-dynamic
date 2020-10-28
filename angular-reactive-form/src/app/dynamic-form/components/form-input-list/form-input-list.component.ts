@@ -18,10 +18,11 @@ export class FormInputListComponent extends Field implements OnInit {
   selectedValue: any;
   ngOnInit(): void {
     console.log(this.config);
-    if (this.config.selectedElement === undefined) {
-      this.config.selectedElement = this.config.choiceList[0];
+    // if (this.config.selectedElement === undefined) {
+    //   this.config.selectedElement = this.config.choiceList[0];
 
-    }
+    // }
+    this.config.selectedElement = this.config.attributeValues;
     // throw new Error('Method not implemented.');
   }
   // selectedValue: string;

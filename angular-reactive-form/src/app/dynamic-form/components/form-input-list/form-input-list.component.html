@@ -10,7 +10,7 @@
       <div>
         <select (change)="optionChanged($event)">
           <option *ngFor="let option of  config.choiceList" [value]="option.displayName"
-            [selected]="option.key===config.selectedElement.key">
+            [selected]="option.key===config.selectedElement">
             {{option.displayName}}
           </option>
         </select>
