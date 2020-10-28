@@ -16,6 +16,8 @@ export class FormInputListComponent extends Field implements OnInit {
 
   @Output() fieldChanged = new EventEmitter<any>();
   selectedValue: any;
+  config: FieldConfig;
+  group: FormGroup;
   ngOnInit(): void {
     console.log(this.config);
     // if (this.config.selectedElement === undefined) {
@@ -25,13 +27,19 @@ export class FormInputListComponent extends Field implements OnInit {
     this.config.selectedElement = this.config.attributeValues;
     // throw new Error('Method not implemented.');
   }
-  // selectedValue: string;
-  config: FieldConfig;
-  group: FormGroup;
-  optionChanged(fieldSelected) {
-    console.log('option changes' + this.fieldChanged)
 
-    this.fieldChanged.emit(fieldSelected.target.value);
+
+  optionChanged(fieldDisplayNameSelected) {
+    let selectedKey;
+    console.log(this.group)
+    // for (let i = 0; i < this.config.choiceList.length; i++) {
+    //   if (this.config.choiceList[i].displayName === fieldDisplayNameSelected) {
+    //     selectedKey = this.config.choiceList[i].key;
+    //   }
+    // }
+
+
+    this.fieldChanged.emit(fieldDisplayNameSelected);
   }
 
 

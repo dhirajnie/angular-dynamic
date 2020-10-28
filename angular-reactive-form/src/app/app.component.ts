@@ -34,11 +34,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     let group = new FieldConfig();
     group.key = this.key.toString();
     group.dataType = "Group"
-
-
-
-
-
     // let definition = new FieldConfig();
 
     // definition.key = this.key.toString();
@@ -66,12 +61,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     // sub2.hide = false;
 
 
-    // group.children.push(definition);
     // group.children.push(sub1);
     // group.children.push(sub2);
 
-
-    // this.formInputList.push(group);
     // this.showDynForm = true;
 
   }
@@ -119,7 +111,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.publisherOptionsFormConfig.push(...publisherOptions.children)
 
     this.showDynForm = true;
-
+    console.log('--------------------')
+    console.log(data)
   }
 
   recur(curXMLNode, parentElement) {
@@ -127,49 +120,51 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (!curXMLNode) {
       return;
     }
-
-    else if (curXMLNode.nodeName === 'definition') {
-      parentElement.children.push(this.createDefinition(curXMLNode));
-      return;
-    }
-    else if (curXMLNode.nodeName === 'header') {
-      parentElement.children.push(this.createHeader(curXMLNode));
-      return;
-    }
     else {
-
-      if (curXMLNode.nodeName === 'group') {
-        let group = this.createGroup(curXMLNode);
-        parentElement.children.push(group);
-        parentElement = group;
+      curXMLNode.setAttribute("id", this.key);
+      ++this.key;
+      if (curXMLNode.nodeName === 'definition') {
+        parentElement.children.push(this.createDefinition(curXMLNode));
+        return;
       }
-      if (curXMLNode.nodeName === 'subordinates') {
-        let subordinates = this.createSubordinates(curXMLNode);
-
-        parentElement.children.push(subordinates);
-        parentElement = subordinates;
+      else if (curXMLNode.nodeName === 'header') {
+        parentElement.children.push(this.createHeader(curXMLNode));
+        return;
       }
-      for (let i = 0; i < curXMLNode.childElementCount; i++) {
-        // console.log('inside loop ' + curnode.nodeName)
-        this.recur(curXMLNode.children[i], parentElement);
+      else {
+
+        if (curXMLNode.nodeName === 'group') {
+          let group = this.createGroup(curXMLNode);
+          parentElement.children.push(group);
+          parentElement = group;
+        }
+        if (curXMLNode.nodeName === 'subordinates') {
+          let subordinates = this.createSubordinates(curXMLNode);
+
+          parentElement.children.push(subordinates);
+          parentElement = subordinates;
+        }
+        for (let i = 0; i < curXMLNode.childElementCount; i++) {
+          // console.log('inside loop ' + curnode.nodeName)
+          this.recur(curXMLNode.children[i], parentElement);
+        }
       }
     }
   }
   createGroup(curXMLNode) {
     let fielConfig = new FieldConfig();
-    fielConfig.key = this.key.toString();
+    fielConfig.key = curXMLNode.getAttribute("id")
     fielConfig.dataType = 'Group';
-    ++this.key;
     return fielConfig;
   }
 
   createSubordinates(curXMLNode) {
     let fielConfig = new FieldConfig();
-    fielConfig.key = this.key.toString();
+    fielConfig.key = curXMLNode.getAttribute("id")
     fielConfig.dataType = 'Subordinates';
     fielConfig.subOridinateActiveValue = curXMLNode.getAttribute('active-value');
 
-    ++this.key;
+
     // subordinates.id = this.key.toString();
     // ++this.key;
     // subordinates.elementType = 'subordinates';
@@ -179,7 +174,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   createDefinition(curXMLNode) {
     console.log(curXMLNode.getAttribute('display-name'))
     let definition = new FieldConfig();
-    definition.key = this.key.toString();
+    definition.key = curXMLNode.getAttribute("id");
     // definition.dataType = "String";
     definition.hide = false;
     ++this.key;
@@ -197,7 +192,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       for (let i = 0; i < enumChoicesXML.length; i++) {
         let displayName = enumChoicesXML[i].getAttribute('display-name');
         let enumValue = enumChoicesXML[i].childNodes[0].nodeValue;
-        choicesList.push({ key: enumValue, value: enumValue });
+        choicesList.push({ key: enumValue, value: displayName });
         definition.dataType = "String";
       }
       definition.choiceList = choicesList;
@@ -220,9 +215,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
   createHeader(curXMLNode) {
     let header = new FieldConfig();
-    header.key = this.key.toString();
+    header.key = curXMLNode.getAttribute("id");
     header.hide = false;
-    ++this.key;
+
     header.dataType = "String";
     header.displayLabel = curXMLNode.getAttribute('display-name');
     header.staticValue = '';
@@ -231,6 +226,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // throw new Error('Method not implemented.');
+    console.log(this.createEntityForm);
+  }
+
+
+  onSubmit() {
+    console.log('form submitted')
+    console.log(this.createEntityForm);
   }
 }

@@ -8,8 +8,8 @@
         </label>
       </div>
       <div>
-        <select (change)="optionChanged($event)">
-          <option *ngFor="let option of  config.choiceList" [value]="option.displayName"
+        <select (change)="optionChanged($event.target.value)" [formControl]="group.controls[config.key]">
+          <option *ngFor="let option of  config.choiceList" [value]="option.key"
             [selected]="option.key===config.selectedElement">
             {{option.displayName}}
           </option>
