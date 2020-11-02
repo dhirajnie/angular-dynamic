@@ -25,6 +25,7 @@ import { FormInputListComponent } from './../form-input-list/form-input-list.com
 import { GroupContainerComponent } from '../group-container/group-container.component';
 import { SubOrdinateInformation } from 'src/app/SubOrdinateInformation';
 import { SubordinatesComponent } from '../subordinates/subordinates.component';
+import { StructuredDefinitionComponent } from '../structured-definition/structured-definition.component';
 
 
 @Directive({
@@ -164,6 +165,10 @@ export class DynamicFieldDirective extends Field implements OnChanges, OnInit {
       }
       case 'Subordinates': {
         component = SubordinatesComponent;
+        break;
+      }
+      case 'StructuredDefinition': {
+        component = StructuredDefinitionComponent;
         break;
       }
       default:

@@ -11,7 +11,7 @@ import { FormGroup } from "@angular/forms";
 
 export class FormInputLabelComponent extends Field implements OnInit {
   ngOnInit(): void {
-    console.log('init done ');
+    
   }
   config: FieldConfig;
   group: FormGroup;

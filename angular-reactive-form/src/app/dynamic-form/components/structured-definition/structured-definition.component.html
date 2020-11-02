@@ -1,0 +1,10 @@
+<div>
+  <button (click)="createInstance()">Add Form</button>
+  structured-definition works!
+
+  <app-definition-template *ngFor="let instance of config.children" [fieldInstanceGroup]="instance.children"
+    [group]="group">
+  </app-definition-template>
+
+
+</div>
