@@ -26,6 +26,7 @@ import { GroupContainerComponent } from '../group-container/group-container.comp
 import { SubOrdinateInformation } from 'src/app/SubOrdinateInformation';
 import { SubordinatesComponent } from '../subordinates/subordinates.component';
 import { StructuredDefinitionComponent } from '../structured-definition/structured-definition.component';
+import { PasswordInputFieldComponent } from 'src/app/password-input-field/password-input-field.component';
 
 
 @Directive({
@@ -169,6 +170,10 @@ export class DynamicFieldDirective extends Field implements OnChanges, OnInit {
       }
       case 'StructuredDefinition': {
         component = StructuredDefinitionComponent;
+        break;
+      }
+      case 'Password': {
+        component = PasswordInputFieldComponent;
         break;
       }
       default:

@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.file = event.target.files[0];
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      console.log('file loaded');
+
       this.xmlInputString = fileReader.result;
       this.parseXML();
     }
@@ -113,6 +113,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showDynForm = true;
     console.log('--------------------')
     console.log(data)
+
   }
 
   recur(curXMLNode, parentElement) {
@@ -171,8 +172,40 @@ export class AppComponent implements OnInit, AfterViewInit {
     // subordinates.activeValue = curXMLNode.getAttribute('active-value');
     return fielConfig;
   }
-  createDefinition(curXMLNode) {
-    console.log(curXMLNode.getAttribute('display-name'))
+  createDefinition(curXMLNode): FieldConfig {
+
+    let structuredDef = new FieldConfig();
+    if (curXMLNode.getAttribute('type') === 'structured') {
+      structuredDef.dataType = 'StructuredDefinition';
+
+      for (let i = 0; i < curXMLNode.childElementCount; i++) {
+        if (curXMLNode.children[i].nodeName === 'value') {
+          let valueNode = curXMLNode.children[i];
+
+          for (let k = 0; k < valueNode.childElementCount; k++) {
+            let templateDef = new FieldConfig();
+            templateDef.dataType = 'StructuredInstance';
+            let instanceNode = valueNode.children[k];
+            for (let j = 0; j < instanceNode.childElementCount; j++) {
+              templateDef.children.push(this.createBasicDef(instanceNode.children[j]));
+            }
+            structuredDef.children.push(templateDef);
+          }
+        }
+        else if (curXMLNode.children[i].nodeName === 'template') {
+
+        }
+      }
+
+      return structuredDef;
+    }
+
+    return this.createBasicDef(curXMLNode);
+
+
+  }
+  createBasicDef(curXMLNode): FieldConfig {
+
     let definition = new FieldConfig();
     definition.key = curXMLNode.getAttribute("id");
     // definition.dataType = "String";
@@ -184,6 +217,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     else if (curXMLNode.getAttribute('type') === 'integer') {
       definition.dataType = "Integer";
+    }
+    else if (curXMLNode.getAttribute('type') === 'password-ref') {
+      definition.dataType = 'Password';
     }
     else if (curXMLNode.getAttribute('type') === 'enum') {
 
@@ -226,12 +262,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.createEntityForm);
+
   }
 
 
   onSubmit() {
-    console.log('form submitted')
-    console.log(this.createEntityForm);
+
+    console.log(this.createEntityForm)
   }
 }

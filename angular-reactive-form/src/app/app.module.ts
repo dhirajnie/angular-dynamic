@@ -8,10 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DynamicFormComponent } from './dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
 import { VariableService } from './shared/services/utilities/util_variable/variable.service';
+import { PasswordInputFieldComponent } from './password-input-field/password-input-field.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+
 
   ],
   imports: [

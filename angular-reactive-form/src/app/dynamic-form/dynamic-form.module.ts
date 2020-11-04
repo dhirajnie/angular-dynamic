@@ -26,6 +26,9 @@ import { FormInputListComponent } from './components/form-input-list/form-input-
 import { DateRangePickerModule } from '../widgets/date-range-picker/date-range-picker.module';
 import { GroupContainerComponent } from './components/group-container/group-container.component';
 import { SubordinatesComponent } from './components/subordinates/subordinates.component';
+import { PasswordInputFieldComponent } from '../password-input-field/password-input-field.component';
+import { StructuredDefinitionComponent } from './components/structured-definition/structured-definition.component';
+import { DefinitionTemplateComponent } from './components/definition-template/definition-template.component';
 // declare var jQuery :any
 
 
@@ -56,6 +59,9 @@ import { SubordinatesComponent } from './components/subordinates/subordinates.co
     FormInputListComponent,
     GroupContainerComponent,
     SubordinatesComponent,
+    PasswordInputFieldComponent,
+    StructuredDefinitionComponent,
+    DefinitionTemplateComponent
   ],
   exports: [
     DynamicFormComponent
@@ -76,6 +82,8 @@ import { SubordinatesComponent } from './components/subordinates/subordinates.co
     FormInputListComponent,
     GroupContainerComponent,
     SubordinatesComponent,
+    PasswordInputFieldComponent,
+    StructuredDefinitionComponent
   ]
 })
 export class DynamicFormModule { }
