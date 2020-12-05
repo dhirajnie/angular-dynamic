@@ -89,16 +89,7 @@
 								</definition>
 								<definition display-name="Authorization Query Options" instance-separator=" " name="http-queryBearer" type="structured" value-separator=";" id="113">
 									<value>
-										<instance id="114">
-											<definition display-name="Query Name" name="query-nameBearer" type="string" id="116">
-												<description>The name of the authentication query type parameter.</description>
-												<value xml:space="preserve">client_id</value>
-											</definition>
-											<definition display-name="Query Value" name="query-valueBearer" type="string" id="118">
-												<description>The supported value of authentication query type parameter.</description>
-												<value xml:space="preserve">3MVG9n_HvETGhr3Dn_KaDB4eha9HflKqQmGMeFKrbI.X_hIykRmtC_JlMlZbD8v1kLf_EFN9XTw8VgYUh22QB</value>
-											</definition>
-										</instance>
+										
 										<instance id="119">
 											<definition display-name="Query Name" name="query-nameBearer" type="string" id="121">
 												<description>The name of the authentication query type parameter.</description>
