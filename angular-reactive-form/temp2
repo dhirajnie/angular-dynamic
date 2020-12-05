@@ -91,11 +91,11 @@
 									<value>
 										
 										
-									<instance  ><definition  display-name="Query Name" multiline="false" name="query-nameBearer" type="string" >
+									<instance ><definition display-name="Query Name" multiline="false" name="query-nameBearer" type="string" >
 											<description>The name of the authentication query type parameter.</description>
-										<value ></value></definition><definition  display-name="Query Value" multiline="false" name="query-valueBearer" type="string" >
+										<value/></definition><definition display-name="Query Value" multiline="false" name="query-valueBearer" type="string" >
 											<description>The supported value of authentication query type parameter.</description>
-										<value ></value></definition></instance></value>
+										<value/></definition></instance></value>
 									<description>Specify the required  header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
 
 Example:
@@ -399,11 +399,15 @@ Query Value: client_credentials</description>
 				<definition display-name="Authorization Header Fields" instance-separator=" " name="http-header" type="structured" value-separator=";" >
 					<value>
 						
-					<instance  ><definition  display-name="Header Name" multiline="false" name="header-name" type="string" >
+					<instance ><definition display-name="Header Name" multiline="false" name="header-name" type="string" >
 							<description>The name of header field name.</description>
-						<value >new_auth_header_name_mod</value></definition><definition  display-name="Header Value" multiline="false" name="header-value" type="string" >
+						<value>new_auth_header_name_mod</value></definition><definition display-name="Header Value" multiline="false" name="header-value" type="string" >
 							<description>The supported value for the above specified header field name.</description>
-						<value >new_auth_header_value_mod</value></definition></instance></value>
+						<value>new_auth_header_value_mod</value></definition></instance><instance ><definition  display-name="Header Name" multiline="false" name="header-name" type="string" >
+							<description>The name of header field name.</description>
+						<value >new_auth_header_name</value></definition><definition  display-name="Header Value" multiline="false" name="header-value" type="string" >
+							<description>The supported value for the above specified header field name.</description>
+						<value >new_auth_header_value</value></definition></instance></value>
 					<description>Enter the required authentication header fields and supported values for the selected authentication method.
 Example:
 header-name: Content-Type
@@ -568,7 +572,11 @@ Example: http://164.99.162.47:7075</description>
 																<value/>
 															</definition>
 														</instance>
-													</value>
+													<instance ><definition  display-name="Header Name" multiline="false" name="resrc-headerName" tmpId="11004" type="string" >
+															<description>Header Name.</description>
+														<value >new_opt_hedaer</value></definition><definition  display-name="Header Value" multiline="false" name="resrc-headerValue" tmpId="11005" type="string" >
+															<description>Header value.</description>
+														<value >new_opt_val</value></definition></instance></value>
 												</definition>
 											</instance>
 											<instance >
@@ -603,11 +611,11 @@ Example: http://164.99.162.47:7075</description>
 															<description>Header value.</description>
 														</definition>
 													</template>
-													<value><instance ><definition  display-name="Header Name" multiline="false" name="resrc-headerName" tmpId="11004" type="string" >
+													<value><instance ><definition display-name="Header Name" multiline="false" name="resrc-headerName" tmpId="11004" type="string" >
 															<description>Header Name.</description>
-														<value >opt-header</value></definition><definition  display-name="Header Value" multiline="false" name="resrc-headerValue" tmpId="11005" type="string" >
+														<value>opt-header</value></definition><definition display-name="Header Value" multiline="false" name="resrc-headerValue" tmpId="11005" type="string" >
 															<description>Header value.</description>
-														<value >opt-val</value></definition></instance></value>
+														<value>opt-val</value></definition></instance></value>
 												</definition>
 											</instance>
 										</value>
@@ -615,18 +623,18 @@ Example: http://164.99.162.47:7075</description>
 								</subordinates>
 							</group>
 						</instance>
-					<instance ><definition  display-name="Schema name" multiline="false" name="resrc-schemaName" type="string" >
+					<instance ><definition display-name="Schema name" multiline="false" name="resrc-schemaName" type="string" >
 							<description>Specify the class name of the user resource returned present in application schema.</description>
 							<value xml:space="preserve"/>
-						<value ></value></definition><group  >
-							<definition display-name="Configure Handlers" instance-separator=" " name="resrc-operationMode" type="enum">
+						<value/></definition><group >
+							<definition display-name="Configure Handlers" instance-separator=" " name="resrc-operationMode" type="enum" >
 								<description>Mention appropriate REST URLs for operations on respective resources.</description>
 								<enum-choice display-name="default">STANDARD</enum-choice>
 								<enum-choice display-name="custom">CUSTOM</enum-choice>
 								<value>STANDARD</value>
 							</definition>
 							<subordinates active-value="CUSTOM">
-								<definition display-name="Rest Handler Details" instance-separator=" " name="resrc-handlerConf" type="structured" value-separator="#">
+								<definition display-name="Rest Handler Details" instance-separator=" " name="resrc-handlerConf" type="structured" value-separator="#" >
 									<description>Mention appropriate REST URLs for operations on respective resources.</description>
 									<template max-count="10" min-count="0">
 										<definition display-name="URL extension" multiline="false" name="user-url" type="string">
@@ -663,7 +671,7 @@ Example: http://164.99.162.47:7075</description>
 									<value/>
 								</definition>
 							</subordinates>
-						<value ></value></group></instance></value>
+						<value/></group></instance></value>
 					<description>Mention appropriate REST URLs for operations on respective resources.</description>
 					<template max-count="10" min-count="0">
 						<definition display-name="Schema name" multiline="false" name="resrc-schemaName" type="string">
