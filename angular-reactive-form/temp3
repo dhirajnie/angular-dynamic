@@ -495,7 +495,85 @@ Example: http://164.99.162.47:7075</description>
 				</definition>
 				<header display-name="Resources" id="243"/>
 				<definition display-name="Configure Resources to synchronize" instance-separator=" " name="subHttpResources" type="structured" value-separator=";" id="244">
-					<value/>
+					<value><instance xmlns="http://www.w3.org/1999/xhtml"><definition xmlns="" display-name="Schema name" multiline="false" name="resrc-schemaName" type="string" id="276">
+							<description>Specify the class name of the user resource returned present in application schema.</description>
+							<value xml:space="preserve">new config_resource_toSynch</value>
+						<value xmlns="http://www.w3.org/1999/xhtml"></value></definition><group xmlns="" id="277">
+							<definition display-name="Configure Handlers" instance-separator=" " name="resrc-operationMode" type="enum" id="246">
+								<description>Mention appropriate REST URLs for operations on respective resources.</description>
+								<enum-choice display-name="default">STANDARD</enum-choice>
+								<enum-choice display-name="custom">CUSTOM</enum-choice>
+								<value>CUSTOM</value>
+							</definition>
+							<subordinates active-value="CUSTOM">
+								<definition display-name="Rest Handler Details" instance-separator=" " name="resrc-handlerConf" type="structured" value-separator="#" id="247">
+									<description>Mention appropriate REST URLs for operations on respective resources.</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="URL extension" multiline="false" name="user-url" type="string" id="248">
+											<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
+										</definition>
+										<definition display-name="Operation" name="resrc-operation" type="enum" id="249">
+											<description>Select operation</description>
+											<enum-choice display-name="Add">0</enum-choice>
+											<enum-choice display-name="Modify">1</enum-choice>
+											<enum-choice display-name="Query">2</enum-choice>
+											<enum-choice display-name="Delete">3</enum-choice>
+										</definition>
+										<definition display-name="Method" multiline="false" name="resrc-methodCall" type="enum" id="250">
+											<description>HTTP method to be used.</description>
+											<enum-choice display-name="GET">0</enum-choice>
+											<enum-choice display-name="POST">1</enum-choice>
+											<enum-choice display-name="PATCH">2</enum-choice>
+											<enum-choice display-name="PUT">3</enum-choice>
+											<enum-choice display-name="DELETE">4</enum-choice>
+										</definition>
+										<definition display-name="Optional Header Fields" instance-separator=" " name="resrc-header" type="structured" value-separator=";" id="251">
+											<description/>
+											<template max-count="10" min-count="0">
+												<definition display-name="Header Name" multiline="false" name="resrc-headerName" type="string" id="252">
+													<description>Header Name.</description>
+												</definition>
+												<definition display-name="Header Value" multiline="false" name="resrc-headerValue" type="string" id="253">
+													<description>Header value.</description>
+												</definition>
+											</template>
+											<value><instance xmlns="http://www.w3.org/1999/xhtml"><definition xmlns="" display-name="Header Name" multiline="false" name="resrc-headerName" type="string" id="285">
+													<description>Header Name.</description>
+												<value xmlns="http://www.w3.org/1999/xhtml">under_config_header_name</value></definition><definition xmlns="" display-name="Header Value" multiline="false" name="resrc-headerValue" type="string" id="286">
+													<description>Header value.</description>
+												<value xmlns="http://www.w3.org/1999/xhtml">header_val</value></definition></instance></value>
+										</definition>
+									</template>
+									<value><instance xmlns="http://www.w3.org/1999/xhtml"><definition xmlns="" display-name="URL extension" multiline="false" name="user-url" type="string" id="279">
+											<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
+										<value xmlns="http://www.w3.org/1999/xhtml">under_confgi_header</value></definition><definition xmlns="" display-name="Operation" name="resrc-operation" type="enum" id="280">
+											<description>Select operation</description>
+											<enum-choice display-name="Add">0</enum-choice>
+											<enum-choice display-name="Modify">1</enum-choice>
+											<enum-choice display-name="Query">2</enum-choice>
+											<enum-choice display-name="Delete">3</enum-choice>
+										<value xmlns="http://www.w3.org/1999/xhtml">0</value></definition><definition xmlns="" display-name="Method" multiline="false" name="resrc-methodCall" type="enum" id="281">
+											<description>HTTP method to be used.</description>
+											<enum-choice display-name="GET">0</enum-choice>
+											<enum-choice display-name="POST">1</enum-choice>
+											<enum-choice display-name="PATCH">2</enum-choice>
+											<enum-choice display-name="PUT">3</enum-choice>
+											<enum-choice display-name="DELETE">4</enum-choice>
+										<value xmlns="http://www.w3.org/1999/xhtml">0</value></definition><definition xmlns="" display-name="Optional Header Fields" instance-separator=" " name="resrc-header" type="structured" value-separator=";" id="282">
+											<description/>
+											<template max-count="10" min-count="0">
+												<definition display-name="Header Name" multiline="false" name="resrc-headerName" type="string" id="252">
+													<description>Header Name.</description>
+												</definition>
+												<definition display-name="Header Value" multiline="false" name="resrc-headerValue" type="string" id="253">
+													<description>Header value.</description>
+												</definition>
+											</template>
+											<value/>
+										<value xmlns="http://www.w3.org/1999/xhtml"></value></definition></instance></value>
+								</definition>
+							</subordinates>
+						<value xmlns="http://www.w3.org/1999/xhtml"></value></group></instance></value>
 					<description>Mention appropriate REST URLs for operations on respective resources.</description>
 					<template max-count="10" min-count="0">
 						<definition display-name="Schema name" multiline="false" name="resrc-schemaName" type="string" id="245">
