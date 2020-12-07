@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?><driver-config name="REST Driver">
+	<driver-options>
+		<configuration-values>
+			<definitions>
+				<group>
+					<definition display-name="Custom Java Extensions" name="viewJavaGroup" type="enum" id="101">
+						<description>Select Show if you have developed custom Java classes to extend the driver shim's functionality.</description>
+						<enum-choice display-name="Show">show</enum-choice>
+						<enum-choice display-name="Hide">hide</enum-choice>
+						<value>hide</value>
+					</definition>
+					<subordinates active-value="show">
+						<group>
+							<definition display-name="Document Handling" name="documentJavaGroup" type="enum" id="102">
+								<description>Select Implemented if you have developed a custom Java class to process data as XML documents.</description>
+								<enum-choice display-name="Implemented">yes</enum-choice>
+								<enum-choice display-name="None">no</enum-choice>
+								<value>yes</value>
+							</definition>
+							<subordinates active-value="yes">
+								<definition display-name="Class" name="documentClass" type="string" id="103">
+									<description>Specify the class using a full package identifier. For example: com.novell.MyNewClass</description>
+									<value>com.novell.restutil.MyDocumentModifiers</value>
+								</definition>
+								<definition display-name="Init Parameter" name="documentParam" type="string" id="104">
+									<description>Specify the parameter you want passed to the init() method of your class. The init method of your class is responsible for parsing the information contained in this string. Leave this field blank if your class doesn't require a configuration string to be passed to the init method.</description>
+									<value/>
+								</definition>
+							</subordinates>
+						</group>
+						<group>
+							<definition display-name="Schema" name="schemaJavaGroup" type="enum" id="105">
+								<description>Select Implemented if you have developed a custom Java class to provide the application schema to the driver.</description>
+								<enum-choice display-name="Implemented">yes</enum-choice>
+								<enum-choice display-name="None">no</enum-choice>
+								<value>yes</value>
+							</definition>
+							<subordinates active-value="yes">
+								<definition display-name="Class" name="schemaClass" type="string" id="106">
+									<description>Specify the class using a full package identifier. For example: com.novell.MyNewClass</description>
+									<value/>
+								</definition>
+								<definition display-name="Init Parameter" name="schemaParam" type="string" id="107">
+									<description>Specify the parameter you want passed to the init() method of your class. The init method of your class is responsible for parsing the information contained in this string. Leave this field blank if your class doesn't require a configuration string to be passed to the init method.</description>
+									<value/>
+								</definition>
+							</subordinates>
+						</group>
+					</subordinates>
+				</group>
+			</definitions>
+		</configuration-values>
+	</driver-options>
+	<subscriber-options>
+		<configuration-values>
+			<definitions>
+				<group>
+					<definition display-name="Authentication Method" hide="false" name="subAuthMethod" type="enum" id="108">
+						<description>Specify the authentication ID and password for the REST server or Web Service. Also specify the required headers and supported values for the selected authentication method.</description>
+						<enum-choice display-name="Anonymous">Anonymous</enum-choice>
+						<enum-choice display-name="Basic">Basic</enum-choice>
+						<enum-choice display-name="OAuth2.0">OAuth</enum-choice>
+						<value>OAuth</value>
+					</definition>
+					<subordinates active-value="Basic">
+						<definition display-name="Authentication ID" hide="false" name="subAuthBasicID" type="string" id="109">
+							<description>Specify the authentication ID for Basic Authorization (on the HTTP header).</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<definition display-name="Authentication Password" hide="false" is-sensitive="true" name="subAuthBasicPwd" type="password-ref" id="110">
+							<description>Specify the authentication password for Basic Authorization (on the HTTP header).</description>
+							<value xml:space="preserve">sub-password</value>
+						</definition>
+					</subordinates>
+					<subordinates active-value="OAuth">
+						<!--  Support Bearer Token -->
+						<group>
+							<definition critical-change="true" display-name="OAuth2.0 Token Management" hide="false" name="bearerToken" type="enum" id="111">
+								<description>Generate Bearer Token or JWT Token or Enter the Bearer Token for OAuth</description>
+								<value>enterBearerToken</value>
+								<enum-choice display-name="Generate Bearer Token">generateBearer</enum-choice>
+								<enum-choice display-name="Generate JWT Token">generateJWT</enum-choice>
+								<enum-choice display-name="Enter Bearer Token">enterBearerToken</enum-choice>
+							</definition>
+							<subordinates active-value="enterBearerToken">
+								<definition display-name="Bearer Token ID" hide="false" name="bearerTokenID" type="string" id="112">
+									<description>Specify the Bearer Token ID</description>
+									<value xml:space="preserve">00D2w000006y1LS!AQsAQM3Byt.fDVq2tmq2s5NP9gSwJmBPrYxw80LYRzwG0b0Fjcr.PXT9sphVjoif61fKnQxj8L9xLlkRxi9RcFKOyVcVlG7A</value>
+								</definition>
+								<definition display-name="Authorization Query Options" instance-separator=" " name="http-queryBearer" type="structured" value-separator=";" id="113">
+									<value>
+										<instance id="114">
+											<definition display-name="Query Name" name="query-nameBearer" type="string" id="116">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_id</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueBearer" type="string" id="118">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">3MVG9n_HvETGhr3Dn_KaDB4eha9HflKqQmGMeFKrbI.X_hIykRmtC_JlMlZbD8v1kLf_EFN9XTw8VgYUh22QB</value>
+											</definition>
+										</instance>
+										<instance id="119">
+											<definition display-name="Query Name" name="query-nameBearer" type="string" id="121">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">issuer</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueBearer" type="string" id="123">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">https://login.salesforce.com</value>
+											</definition>
+										</instance>
+									</value>
+									<description>Specify the required  header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
+
+Example:
+Query Name: grant_type
+Query Value: client_credentials</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="Query Name" multiline="false" name="query-nameBearer" type="string" id="124">
+											<description>The name of the authentication query type parameter.</description>
+										</definition>
+										<definition display-name="Query Value" multiline="false" name="query-valueBearer" type="string" id="125">
+											<description>The supported value of authentication query type parameter.</description>
+										</definition>
+									</template>
+								</definition>
+								<definition display-name="Secret Authorization Query Options" instance-separator=" " name="http-query-passwordBearer" type="structured" value-separator=";" id="126">
+									<value>
+										<instance id="127">
+											<definition display-name="Query Name" name="query-name-passwordBearer" type="string" id="129">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">refresh_token</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-passwordBearer" type="password-ref" id="131">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-passwordBearer-0</value>
+											</definition>
+										</instance>
+										<instance id="132">
+											<definition display-name="Query Name" name="query-name-passwordBearer" type="string" id="134">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_secret</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-passwordBearer" type="password-ref" id="136">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-passwordBearer-1</value>
+											</definition>
+										</instance>
+									</value>
+									<description>Specify the encrypted required  header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
+
+</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="Query Name" multiline="false" name="query-name-passwordBearer" type="string" id="137">
+											<description>The name of the authentication query type parameter.</description>
+										</definition>
+										<definition display-name="Query Value" is-sensitive="true" name="query-value-passwordBearer" type="password-ref" id="138">
+											<description>The supported value of authentication query type parameter.</description>
+											<value xml:space="preserve">query-value-passwordBearer</value>
+											<value xml:space="preserve">query-value-passwordBearer-0</value>
+											<value xml:space="preserve">query-value-passwordBearer-1</value>
+										</definition>
+									</template>
+								</definition>
+							</subordinates>
+							<!--  Bearer Token End -->
+							<!--  Start Generate JWT Token -->
+							<subordinates active-value="generateJWT">
+								<!-- <definition display-name="xlfid(NETQRESTBASE.initial.settings.param.subOAuthURLJWT)Access Token URL" hide="false" id="110" name="subOAuthURLJWT" type="string">
+												<description>xlfid(NETQRESTBASE.initial.settings.param.dscr.subOAuthURLJWT) Specify the URL of the server used for requesting token access.</description>
+												<value/>
+											</definition>
+											<definition display-name="xlfid(NETQRESTBASE.initial.settings.param.subOAuthIDJWT)User Name" hide="false" id="111" name="subOAuthIDJWT" type="string">
+												<description>xlfid(NETQRESTBASE.initial.settings.param.dscr.subOAuthIDJWT)Specify the authentication ID for OAuth2.0 Authorization (on the HTTP header) is used.</description>
+												<value/>
+											</definition>
+											<definition display-name="xlfid(NETQRESTBASE.initial.settings.param.subOAuthPwdJWT)User Password" hide="false" id="112" is-sensitive="true" name="subOAuthPwdJWT" type="password-ref">
+												<description>xlfid(NETQRESTBASE.initial.settings.param.dscr.subOAuthPwdJWT)Specify the authentication password for OAuth2.0 Authorization (on the HTTP header) is used.</description>
+												<value>subOAuthPwdJWT</value>
+												<pwd-value removePwd="false"/>
+											</definition>-->
+								<definition display-name="Authorization Query Options" instance-separator=" " name="http-queryJWT" type="structured" value-separator=";" id="139">
+									<value>
+										<instance id="140">
+											<definition display-name="Query Name" name="query-nameJWT" type="string" id="142">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_id</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueJWT" type="string" id="144">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+										<instance id="145">
+											<definition display-name="Query Name" name="query-nameJWT" type="string" id="147">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">subject</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueJWT" type="string" id="149">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+										<instance id="150">
+											<definition display-name="Query Name" name="query-nameJWT" type="string" id="152">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">issuer</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueJWT" type="string" id="154">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+										<instance id="155">
+											<definition display-name="Query Name" name="query-nameJWT" type="string" id="157">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_auth_type</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueJWT" type="string" id="159">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+										<instance id="160">
+											<definition display-name="Query Name" name="query-nameJWT" type="string" id="162">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">recipient_keystore</value>
+											</definition>
+											<definition display-name="Query Value" name="query-valueJWT" type="string" id="164">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+									</value>
+									<description>Specify the required  header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
+
+Example:
+Query Name: grant_type
+Query Value: client_credentials</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="Query Name" multiline="false" name="query-nameJWT" type="string" id="165">
+											<description>The name of the authentication query type parameter.</description>
+										</definition>
+										<definition display-name="Query Value" multiline="false" name="query-valueJWT" type="string" id="166">
+											<description>The supported value of authentication query type parameter.</description>
+										</definition>
+									</template>
+								</definition>
+								<definition display-name="Secret Authorization Query Options" instance-separator=" " name="http-query-passwordJWT" type="structured" value-separator=";" id="167">
+									<value>
+										<instance id="168">
+											<definition display-name="Query Name" name="query-name-passwordJWT" type="string" id="170">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">recipient_storepass</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-passwordJWT" type="password-ref" id="172">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-passwordJWT-0</value>
+											</definition>
+										</instance>
+										<instance id="173">
+											<definition display-name="Query Name" name="query-name-passwordJWT" type="string" id="175">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">recipient_keypass</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-passwordJWT" type="password-ref" id="177">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-passwordJWT-1</value>
+											</definition>
+										</instance>
+										<instance id="178">
+											<definition display-name="Query Name" name="query-name-passwordJWT" type="string" id="180">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">refresh_token</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-passwordJWT" type="password-ref" id="182">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-passwordJWT-2</value>
+											</definition>
+										</instance>
+										<instance id="183">
+											<definition display-name="Query Name" name="query-name-passwordJWT" type="string" id="185">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_secret</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-passwordJWT" type="password-ref" id="187">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-passwordJWT-3</value>
+											</definition>
+										</instance>
+									</value>
+									<description>Specify the required encrypted header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
+</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="Query Name" multiline="false" name="query-name-passwordJWT" type="string" id="188">
+											<description>The name of the authentication query type parameter.</description>
+										</definition>
+										<definition display-name="Query Value" is-sensitive="true" name="query-value-passwordJWT" type="password-ref" id="189">
+											<description>The supported value of authentication query type parameter.</description>
+											<value xml:space="preserve">query-value-passwordJWT</value>
+											<value xml:space="preserve">query-value-passwordJWT-0</value>
+											<value xml:space="preserve">query-value-passwordJWT-1</value>
+											<value xml:space="preserve">query-value-passwordJWT-2</value>
+											<value xml:space="preserve">query-value-passwordJWT-3</value>
+										</definition>
+									</template>
+								</definition>
+							</subordinates>
+							<!--  End Generate JWT Token -->
+							<!--  Start Generate Bearer Token -->
+							<subordinates active-value="generateBearer">
+								<definition display-name="Access Token URL" hide="false" name="subOAuthURL" type="string" id="190">
+									<description> Specify the URL of the server used for requesting token access.</description>
+									<value xml:space="preserve"/>
+								</definition>
+								<definition display-name="User Name" hide="false" name="subOAuthID" type="string" id="191">
+									<description>Specify the authentication ID for OAuth2.0 Authorization (on the HTTP header) is used.</description>
+									<value xml:space="preserve"/>
+								</definition>
+								<definition display-name="User Password" hide="false" is-sensitive="true" name="subOAuthPwd" type="password-ref" id="192">
+									<description>Specify the authentication password for OAuth2.0 Authorization (on the HTTP header) is used.</description>
+									<value xml:space="preserve">subOAuthPwd</value>
+								</definition>
+								<definition display-name="Authorization Query Options" instance-separator=" " name="http-query" type="structured" value-separator=";" id="193">
+									<value>
+										<instance id="194">
+											<definition display-name="Query Name" name="query-name" type="string" id="196">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">grant_type</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value" type="string" id="198">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+										<instance id="199">
+											<definition display-name="Query Name" name="query-name" type="string" id="201">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_id</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value" type="string" id="203">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+										<instance id="204">
+											<definition display-name="Query Name" name="query-name" type="string" id="206">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">issuer</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value" type="string" id="208">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve"/>
+											</definition>
+										</instance>
+									</value>
+									<description>Specify the required  header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
+
+Example:
+Query Name: grant_type
+Query Value: client_credentials</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="Query Name" multiline="false" name="query-name" type="string" id="209">
+											<description>The name of the authentication query type parameter.</description>
+										</definition>
+										<definition display-name="Query Value" multiline="false" name="query-value" type="string" id="210">
+											<description>The supported value of authentication query type parameter.</description>
+										</definition>
+									</template>
+								</definition>
+								<definition display-name="Secret Authorization Query Options" instance-separator=" " name="http-query-password" type="structured" value-separator=";" id="211">
+									<value>
+										<instance id="212">
+											<definition display-name="Query Name" name="query-name-password" type="string" id="214">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">refresh_token</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-password" type="password-ref" id="216">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-password-0</value>
+											</definition>
+										</instance>
+										<instance id="217">
+											<definition display-name="Query Name" name="query-name-password" type="string" id="219">
+												<description>The name of the authentication query type parameter.</description>
+												<value xml:space="preserve">client_secret</value>
+											</definition>
+											<definition display-name="Query Value" name="query-value-password" type="password-ref" id="221">
+												<description>The supported value of authentication query type parameter.</description>
+												<value xml:space="preserve">query-value-password-1</value>
+											</definition>
+										</instance>
+									</value>
+									<description>Specify the required encrypted header query parameter and values supported by the connected server for the OAuth 2.0 authentication method.
+</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="Query Name" multiline="false" name="query-name-password" type="string" id="222">
+											<description>The name of the authentication query type parameter.</description>
+										</definition>
+										<definition display-name="Query Value" is-sensitive="true" name="query-value-password" type="password-ref" id="223">
+											<description>The supported value of authentication query type parameter.</description>
+											<value xml:space="preserve">query-value-password</value>
+											<value xml:space="preserve">query-value-password-0</value>
+											<value xml:space="preserve">query-value-password-1</value>
+										</definition>
+									</template>
+								</definition>
+							</subordinates>
+							<!--  End Generate JWT Token -->
+						</group>
+					</subordinates>
+				</group>
+				<definition display-name="Authorization Header Fields" instance-separator=" " name="http-header" type="structured" value-separator=";" id="224">
+					<value>
+						<instance id="225">
+							<definition display-name="Header Name" multiline="false" name="header-name" tmpId="11000" type="string" id="227">
+								<description>The name of header field name.</description>
+								<value>content type</value>
+							</definition>
+							<definition display-name="Header Value" multiline="false" name="header-value" tmpId="11001" type="string" id="229">
+								<description>The supported value for the above specified header field name.</description>
+								<value>application/x-www-form-urlencoded</value>
+							</definition>
+						</instance>
+					</value>
+					<description>Enter the required authentication header fields and supported values for the selected authentication method.
+Example:
+header-name: Content-Type
+header-value:  application/json</description>
+					<template max-count="10" min-count="0">
+						<definition display-name="Header Name" multiline="false" name="header-name" type="string" id="230">
+							<description>The name of header field name.</description>
+						</definition>
+						<definition display-name="Header Value" multiline="false" name="header-value" type="string" id="231">
+							<description>The supported value for the above specified header field name.</description>
+						</definition>
+					</template>
+				</definition>
+				<definition display-name="Truststore file" name="subTrustStoreFile" type="string" id="232">
+					<description>When the remote server is configured to provide server authentication, this is the path and the name of the keystore file which contains trusted certificates. For example: c:\security\truststore. Leave this field blank when server authentication is not used.</description>
+					<value xml:space="preserve">/root/truststore/salesforce.jks</value>
+				</definition>
+				<group>
+					<definition display-name="Set mutual authentication parameters" hide="false" name="mutualFields" type="enum" id="233">
+						<description>Select Show if you want to set mutual authentication information.</description>
+						<enum-choice display-name="Show">show</enum-choice>
+						<enum-choice display-name="Hide">hide</enum-choice>
+						<value>show</value>
+					</definition>
+					<subordinates active-value="show">
+						<definition display-name="Keystore file" name="subKeystoreFile" type="string" id="234">
+							<description>When the remote server is configured to provide mutual authentication, this is the path and the name of the keystore file. For example: C:\security\keystore. Leave this field blank when mutual authentication is not used.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<definition display-name="Keystore password" name="subKeystorePassword" type="password-ref" id="235">
+							<description>When the remote server is configured to provide mutual authentication, this is the keystore file password. Leave this field blank when mutual authentication is not used.</description>
+							<value xml:space="preserve">sub-password</value>
+						</definition>
+					</subordinates>
+				</group>
+				<definition display-name="Http Connection Timeout" name="connTimeOut" type="string" id="236">
+					<description>Time in minutes for the driver to wait for a REST response.</description>
+					<value xml:space="preserve">1</value>
+				</definition>
+				<definition display-name="Proxy host and port" name="proxy" type="string" id="237">
+					<description>When a proxy host and port are used, specify the host address and the host port. For example: 192.10.1.3:18180. Choose an unused port number on your server. Otherwise, leave this field blank.</description>
+					<value xml:space="preserve"/>
+				</definition>
+				<group>
+					<definition display-name="Set proxy authentication parameters" hide="false" name="proxyFields" type="enum" id="238">
+						<description>Select Show if you want to set proxy authentication information.</description>
+						<enum-choice display-name="Show">show</enum-choice>
+						<enum-choice display-name="Hide">hide</enum-choice>
+						<value>show</value>
+					</definition>
+					<subordinates active-value="show">
+						<definition display-name="User name" name="proxyUserName" type="string" id="239">
+							<description>User name for authentication based proxy settings.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<definition display-name="Password" name="proxyPassword" type="password-ref" id="240">
+							<description>Password for authentication based proxy settings.</description>
+							<value xml:space="preserve">proxyPassword</value>
+						</definition>
+					</subordinates>
+				</group>
+				<definition display-name="HTTP errors to retry" name="subHttpErrorsToRetry" type="string" id="241">
+					<description>List the HTTP error codes that should return a retry status. Must be a list of integers separated by spaces.</description>
+					<value xml:space="preserve">307 408 503 504</value>
+				</definition>
+				<definition display-name="Base URL for REST Resources" name="subHttpRESTBASEURL" type="string" id="242">
+					<description>Enter the base url for the rest endpoints.Any REST resource, method, and parameters will be appended to this base URL to form a request.
+Example: http://164.99.162.47:7075</description>
+					<value xml:space="preserve">https://ap16.salesforce.com/</value>
+				</definition>
+				<header display-name="Resources" id="243"/>
+				<definition display-name="Configure Resources to synchronize" instance-separator=" " name="subHttpResources" type="structured" value-separator=";" id="244">
+					<value/>
+					<description>Mention appropriate REST URLs for operations on respective resources.</description>
+					<template max-count="10" min-count="0">
+						<definition display-name="Schema name" multiline="false" name="resrc-schemaName" type="string" id="245">
+							<description>Specify the class name of the user resource returned present in application schema.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<group>
+							<definition display-name="Configure Handlers" instance-separator=" " name="resrc-operationMode" type="enum" id="246">
+								<description>Mention appropriate REST URLs for operations on respective resources.</description>
+								<enum-choice display-name="default">STANDARD</enum-choice>
+								<enum-choice display-name="custom">CUSTOM</enum-choice>
+								<value>STANDARD</value>
+							</definition>
+							<subordinates active-value="CUSTOM">
+								<definition display-name="Rest Handler Details" instance-separator=" " name="resrc-handlerConf" type="structured" value-separator="#" id="247">
+									<description>Mention appropriate REST URLs for operations on respective resources.</description>
+									<template max-count="10" min-count="0">
+										<definition display-name="URL extension" multiline="false" name="user-url" type="string" id="248">
+											<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
+										</definition>
+										<definition display-name="Operation" name="resrc-operation" type="enum" id="249">
+											<description>Select operation</description>
+											<enum-choice display-name="Add">0</enum-choice>
+											<enum-choice display-name="Modify">1</enum-choice>
+											<enum-choice display-name="Query">2</enum-choice>
+											<enum-choice display-name="Delete">3</enum-choice>
+										</definition>
+										<definition display-name="Method" multiline="false" name="resrc-methodCall" type="enum" id="250">
+											<description>HTTP method to be used.</description>
+											<enum-choice display-name="GET">0</enum-choice>
+											<enum-choice display-name="POST">1</enum-choice>
+											<enum-choice display-name="PATCH">2</enum-choice>
+											<enum-choice display-name="PUT">3</enum-choice>
+											<enum-choice display-name="DELETE">4</enum-choice>
+										</definition>
+										<definition display-name="Optional Header Fields" instance-separator=" " name="resrc-header" type="structured" value-separator=";" id="251">
+											<description/>
+											<template max-count="10" min-count="0">
+												<definition display-name="Header Name" multiline="false" name="resrc-headerName" type="string" id="252">
+													<description>Header Name.</description>
+												</definition>
+												<definition display-name="Header Value" multiline="false" name="resrc-headerValue" type="string" id="253">
+													<description>Header value.</description>
+												</definition>
+											</template>
+											<value/>
+										</definition>
+									</template>
+									<value/>
+								</definition>
+							</subordinates>
+						</group>
+					</template>
+				</definition>
+			</definitions>
+		</configuration-values>
+	</subscriber-options>
+	<publisher-options>
+		<configuration-values>
+			<definitions>
+				<group>
+					<definition display-name="Publisher Setting" hide="false" name="pubSetting" type="enum" id="254">
+						<description>Specify the Publisher Setting.</description>
+						<enum-choice display-name="Poll Mode">Poll</enum-choice>
+						<enum-choice display-name="Publish Mode">Publish</enum-choice>
+						<value>Poll</value>
+					</definition>
+					<subordinates active-value="Poll">
+						<definition display-name="Configure Resource for poll" instance-separator=" " name="resrc-Poll" type="structured" value-separator="#" id="255">
+							<value/>
+							<description/>
+							<template max-count="10" min-count="0">
+								<definition display-name="Schema name" multiline="false" name="resrc-schemaName" type="string" id="256">
+									<description>Specify the class name of the user resource returned present in application schema.</description>
+									<value xml:space="preserve"/>
+								</definition>
+								<definition display-name="Service Endpoints" multiline="false" name="resrc-pollurl" type="string" id="257">
+									<description>Specify the REST URLs for the resource. Mention queriable strings as %s.</description>
+									<value xml:space="preserve"/>
+								</definition>
+								<definition display-name="Method" multiline="false" name="resrc-pollMethodCall" type="enum" id="258">
+									<description>HTTP method to be used.</description>
+									<enum-choice display-name="GET">0</enum-choice>
+									<enum-choice display-name="POST">1</enum-choice>
+									<enum-choice display-name="PATCH">2</enum-choice>
+									<enum-choice display-name="PUT">3</enum-choice>
+									<enum-choice display-name="DELETE">4</enum-choice>
+								</definition>
+								<definition display-name="Optional Header Fields" instance-separator=" " name="resrc-PollHeader" type="structured" value-separator=";" id="259">
+									<description/>
+									<template max-count="10" min-count="0">
+										<definition display-name="Header Name" multiline="true" name="resrc-pollHeaderName" type="string" id="260">
+											<description>Header Name.</description>
+										</definition>
+										<definition display-name="Header Value" multiline="true" name="resrc-pollHeaderValue" type="string" id="261">
+											<description>Header value.</description>
+										</definition>
+									</template>
+									<value/>
+								</definition>
+							</template>
+						</definition>
+						<!--definition display-name="xlfid(NETQRESTBASE.initial.settings.param.pollBegin)Search Results to Synchronize on First Startup" id="163" name="pollBegin" type="enum">
+										<description>xlfid(NETQRESTBASE.initial.settings.param.dscr.pollBegin)The first time this driver starts, it performs the defined search on the application. </description>										
+										<enum-choice display-name="xlfid(NETQRESTBASE.initial.settings.param.choice.pollBegin.Synchronizeeverything)Synchronize everything">2</enum-choice>
+										<value>1</value>
+									</definition-->
+						<definition display-name="Polling interval in minutes" name="pollingInterval" type="string" id="262">
+							<description>Specify the polling interval in minutes. </description>
+							<value xml:space="preserve">1</value>
+						</definition>
+					</subordinates>
+					<subordinates active-value="Publish">
+						<definition display-name="Listening IP address and port" hide="false" name="pubHostPort" type="string" id="263">
+							<description>Specify the IP address of the server where this driver is installed and the port that this driver listens on. You can specify 127.0.0.1 if there is only one network card installed in the server. Choose an unused port number on your server. For example: 127.0.0.1:18180. The driver listens on this address for incoming requests, processes the requests, and returns a result.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<group>
+							<definition display-name="Authentication Method" hide="false" name="pubAuthMethod" type="enum" id="264">
+								<description>Specify the authentication ID for the REST server or Web Service if Basic Authorization (on the HTTP header).</description>
+								<enum-choice display-name="Anonymous">Anonymous</enum-choice>
+								<enum-choice display-name="Basic">Basic</enum-choice>
+								<value>Basic</value>
+							</definition>
+							<subordinates active-value="Basic">
+								<definition display-name="Authentication ID" hide="false" name="pubAuthBasicID" type="string" id="265">
+									<description>Specify the authentication ID for Basic Authorization (on the HTTP header).</description>
+									<value xml:space="preserve"/>
+								</definition>
+								<definition display-name="Authentication Password" hide="false" is-sensitive="true" name="pubAuthBasicPwd" type="password-ref" id="266">
+									<description>Specify the authentication password for Basic Authorization (on the HTTP header).</description>
+									<value xml:space="preserve">subAuthPwd-1</value>
+								</definition>
+							</subordinates>
+						</group>
+						<header display-name="Other Options" id="267"/>
+						<definition display-name="KMO name" name="KMOName" type="string" id="268">
+							<description>When this server is configured to accept HTTPS connections, this is the KMO name in eDirectory. The KMO name is the name before the ' - ' in the RDN. Leave this field blank when a keystore file is used (see below) or when HTTPS connections are not used.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<definition display-name="Keystore file" name="pubKeystoreFile" type="string" id="269">
+							<description>When this server is configured to accept HTTPS connections, this is the path and the name of the keystore file. For example: C:\security\keystore. Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<definition display-name="Keystore password" name="pubKeystorePassword" type="password-ref" id="270">
+							<description>When this server is configured to accept HTTPS connections, this is the keystore file password. Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
+							<value xml:space="preserve">pubKeystorePassword</value>
+						</definition>
+						<definition display-name="Server key alias" name="pubServerKeyAlias" type="string" id="271">
+							<description>When this server is configured to accept HTTPS connections, this is the key alias. Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
+							<value xml:space="preserve"/>
+						</definition>
+						<definition display-name="Server key password" name="pubServerKeyPassword" type="password-ref" id="272">
+							<description>When this server is configured to accept HTTPS connections, this is the key alias password (not the keystore password). Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
+							<value xml:space="preserve">pubServerKeyPassword</value>
+						</definition>
+						<definition display-name="Require mutual authentication" name="pubRequireMutualAuth" type="enum" id="273">
+							<description>When using SSL, it is common to do only server authentication. However, if you want to force both client and server to present certificates during the handshake process, select Required.</description>
+							<enum-choice display-name="Required">true</enum-choice>
+							<enum-choice display-name="Not required">false</enum-choice>
+							<value>false</value>
+						</definition>
+					</subordinates>
+					<definition display-name="Heartbeat interval in minutes" name="heartbeat" type="string" id="274">
+						<description>Specify the heartbeat interval in minutes. Leave this field blank to turn off the heartbeat.</description>
+						<value xml:space="preserve">1</value>
+					</definition>
+				</group>
+			</definitions>
+		</configuration-values>
+	</publisher-options>
+</driver-config>
