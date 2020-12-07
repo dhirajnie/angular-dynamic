@@ -493,172 +493,37 @@ header-value:  application/json</description>
 Example: http://164.99.162.47:7075</description>
 					<value xml:space="preserve">https://ap16.salesforce.com/</value>
 				</definition>
-				<header display-name="Resources" id="238"/>
+				<header display-name="Resources" id="215"/>
 				<definition display-name="Configure Resources to synchronize" id="185" instance-separator=" " name="subHttpResources" type="structured" value-separator=";">
-					<value>
-						<instance>
-							<definition display-name="Schema name" id="186" multiline="false" name="resrc-schemaName" tmpId="11000" type="string">
-								<description>Specify the class name of the user resource returned present in application schema.</description>
-								<value xml:space="preserve">User</value>
-							</definition>
-							<group>
-								<definition display-name="Configure Handlers" id="187" instance-separator=" " name="resrc-operationMode" tmpId="11001" type="enum">
-									<description>Mention appropriate REST URLs for operations on respective resources.</description>
-									<enum-choice display-name="default">STANDARD</enum-choice>
-									<enum-choice display-name="custom">CUSTOM</enum-choice>
-									<value>CUSTOM</value>
-								</definition>
-								<subordinates active-value="CUSTOM">
-									<definition display-name="Rest Handler Details" id="188" instance-separator=" " name="resrc-handlerConf" tmpId="11002" type="structured" value-separator="#">
-										<description>Mention appropriate REST URLs for operations on respective resources.</description>
-										<template max-count="10" min-count="0">
-											<definition display-name="URL extension" id="189" multiline="false" name="user-url" tmpId="11003" type="string">
-												<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
-											</definition>
-											<definition display-name="Operation" id="190" name="resrc-operation" tmpId="11004" type="enum">
-												<description>Select operation</description>
-												<enum-choice display-name="Add">0</enum-choice>
-												<enum-choice display-name="Modify">1</enum-choice>
-												<enum-choice display-name="Query">2</enum-choice>
-												<enum-choice display-name="Delete">3</enum-choice>
-											</definition>
-											<definition display-name="Method" id="191" multiline="false" name="resrc-methodCall" tmpId="11005" type="enum">
-												<description>HTTP method to be used.</description>
-												<enum-choice display-name="GET">0</enum-choice>
-												<enum-choice display-name="POST">1</enum-choice>
-												<enum-choice display-name="PATCH">2</enum-choice>
-												<enum-choice display-name="PUT">3</enum-choice>
-												<enum-choice display-name="DELETE">4</enum-choice>
-											</definition>
-											<definition display-name="Optional Header Fields" id="192" instance-separator=" " name="resrc-header" tmpId="11006" type="structured" value-separator=";">
-												<description/>
-												<template max-count="10" min-count="0">
-													<definition display-name="Header Name" id="193" multiline="false" name="resrc-headerName" tmpId="11007" type="string">
-														<description>Header Name.</description>
-													</definition>
-													<definition display-name="Header Value" id="194" multiline="false" name="resrc-headerValue" tmpId="11008" type="string">
-														<description>Header value.</description>
-													</definition>
-												</template>
-												<value/>
-											</definition>
-										</template>
-										<value>
-											<instance>
-												<definition display-name="URL extension" id="195" multiline="false" name="user-url" tmpId="11000" type="string">
-													<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
-													<value>services/data/v20.0/sobjects/User</value>
-												</definition>
-												<definition display-name="Operation" id="196" name="resrc-operation" tmpId="11001" type="enum">
-													<description>Select operation</description>
-													<enum-choice display-name="Add">0</enum-choice>
-													<enum-choice display-name="Modify">1</enum-choice>
-													<enum-choice display-name="Query">2</enum-choice>
-													<enum-choice display-name="Delete">3</enum-choice>
-													<value>0</value>
-												</definition>
-												<definition display-name="Method" id="197" multiline="false" name="resrc-methodCall" tmpId="11002" type="enum">
-													<description>HTTP method to be used.</description>
-													<enum-choice display-name="GET">0</enum-choice>
-													<enum-choice display-name="POST">1</enum-choice>
-													<enum-choice display-name="PATCH">2</enum-choice>
-													<enum-choice display-name="PUT">3</enum-choice>
-													<enum-choice display-name="DELETE">4</enum-choice>
-													<value>1</value>
-												</definition>
-												<definition display-name="Optional Header Fields" id="198" instance-separator=" " name="resrc-header" tmpId="11003" type="structured" value-separator=";">
-													<description/>
-													<template max-count="10" min-count="0">
-														<definition display-name="Header Name" id="199" multiline="false" name="resrc-headerName" tmpId="11004" type="string">
-															<description>Header Name.</description>
-														</definition>
-														<definition display-name="Header Value" id="200" multiline="false" name="resrc-headerValue" tmpId="11005" type="string">
-															<description>Header value.</description>
-														</definition>
-													</template>
-													<value>
-														<instance>
-															<definition display-name="Header Name" id="201" multiline="false" name="resrc-headerName" tmpId="11000" type="string">
-																<description>Header Name.</description>
-																<value></value>
-															</definition>
-															<definition display-name="Header Value" id="202" multiline="false" name="resrc-headerValue" tmpId="11001" type="string">
-																<description>Header value.</description>
-																<value></value>
-															</definition>
-														</instance>
-													</value>
-												</definition>
-											</instance>
-											<instance>
-												<definition display-name="URL extension" id="203" multiline="false" name="user-url" tmpId="11000" type="string">
-													<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
-													<value></value>
-												</definition>
-												<definition display-name="Operation" id="204" name="resrc-operation" tmpId="11001" type="enum">
-													<description>Select operation</description>
-													<enum-choice display-name="Add">0</enum-choice>
-													<enum-choice display-name="Modify">1</enum-choice>
-													<enum-choice display-name="Query">2</enum-choice>
-													<enum-choice display-name="Delete">3</enum-choice>
-													<value>0</value>
-												</definition>
-												<definition display-name="Method" id="205" multiline="false" name="resrc-methodCall" tmpId="11002" type="enum">
-													<description>HTTP method to be used.</description>
-													<enum-choice display-name="GET">0</enum-choice>
-													<enum-choice display-name="POST">1</enum-choice>
-													<enum-choice display-name="PATCH">2</enum-choice>
-													<enum-choice display-name="PUT">3</enum-choice>
-													<enum-choice display-name="DELETE">4</enum-choice>
-													<value>0</value>
-												</definition>
-												<definition display-name="Optional Header Fields" id="206" instance-separator=" " name="resrc-header" tmpId="11003" type="structured" value-separator=";">
-													<description/>
-													<template max-count="10" min-count="0">
-														<definition display-name="Header Name" id="207" multiline="false" name="resrc-headerName" tmpId="11004" type="string">
-															<description>Header Name.</description>
-														</definition>
-														<definition display-name="Header Value" id="208" multiline="false" name="resrc-headerValue" tmpId="11005" type="string">
-															<description>Header value.</description>
-														</definition>
-													</template>
-													<value/>
-												</definition>
-											</instance>
-										</value>
-									</definition>
-								</subordinates>
-							</group>
-						</instance>
-					</value>
+					<value/>
 					<description>Mention appropriate REST URLs for operations on respective resources.</description>
 					<template max-count="10" min-count="0">
-						<definition display-name="Schema name" id="209" multiline="false" name="resrc-schemaName" type="string">
+						<definition display-name="Schema name" id="186" multiline="false" name="resrc-schemaName" type="string">
 							<description>Specify the class name of the user resource returned present in application schema.</description>
 							<value xml:space="preserve"/>
 						</definition>
 						<group>
-							<definition display-name="Configure Handlers" id="210" instance-separator=" " name="resrc-operationMode" type="enum">
+							<definition display-name="Configure Handlers" id="187" instance-separator=" " name="resrc-operationMode" type="enum">
 								<description>Mention appropriate REST URLs for operations on respective resources.</description>
 								<enum-choice display-name="default">STANDARD</enum-choice>
 								<enum-choice display-name="custom">CUSTOM</enum-choice>
 								<value>STANDARD</value>
 							</definition>
 							<subordinates active-value="CUSTOM">
-								<definition display-name="Rest Handler Details" id="211" instance-separator=" " name="resrc-handlerConf" type="structured" value-separator="#">
+								<definition display-name="Rest Handler Details" id="188" instance-separator=" " name="resrc-handlerConf" type="structured" value-separator="#">
 									<description>Mention appropriate REST URLs for operations on respective resources.</description>
 									<template max-count="10" min-count="0">
-										<definition display-name="URL extension" id="212" multiline="false" name="user-url" type="string">
+										<definition display-name="URL extension" id="189" multiline="false" name="user-url" type="string">
 											<description>Specify the REST URLs for the resource. Mention queriable strings within arrow-brackets.</description>
 										</definition>
-										<definition display-name="Operation" id="213" name="resrc-operation" type="enum">
+										<definition display-name="Operation" id="190" name="resrc-operation" type="enum">
 											<description>Select operation</description>
 											<enum-choice display-name="Add">0</enum-choice>
 											<enum-choice display-name="Modify">1</enum-choice>
 											<enum-choice display-name="Query">2</enum-choice>
 											<enum-choice display-name="Delete">3</enum-choice>
 										</definition>
-										<definition display-name="Method" id="214" multiline="false" name="resrc-methodCall" type="enum">
+										<definition display-name="Method" id="191" multiline="false" name="resrc-methodCall" type="enum">
 											<description>HTTP method to be used.</description>
 											<enum-choice display-name="GET">0</enum-choice>
 											<enum-choice display-name="POST">1</enum-choice>
@@ -666,13 +531,13 @@ Example: http://164.99.162.47:7075</description>
 											<enum-choice display-name="PUT">3</enum-choice>
 											<enum-choice display-name="DELETE">4</enum-choice>
 										</definition>
-										<definition display-name="Optional Header Fields" id="215" instance-separator=" " name="resrc-header" type="structured" value-separator=";">
+										<definition display-name="Optional Header Fields" id="192" instance-separator=" " name="resrc-header" type="structured" value-separator=";">
 											<description/>
 											<template max-count="10" min-count="0">
-												<definition display-name="Header Name" id="216" multiline="false" name="resrc-headerName" type="string">
+												<definition display-name="Header Name" id="193" multiline="false" name="resrc-headerName" type="string">
 													<description>Header Name.</description>
 												</definition>
-												<definition display-name="Header Value" id="217" multiline="false" name="resrc-headerValue" type="string">
+												<definition display-name="Header Value" id="194" multiline="false" name="resrc-headerValue" type="string">
 													<description>Header value.</description>
 												</definition>
 											</template>
@@ -692,26 +557,26 @@ Example: http://164.99.162.47:7075</description>
 		<configuration-values>
 			<definitions>
 				<group>
-					<definition display-name="Publisher Setting" hide="false" id="218" name="pubSetting" type="enum">
+					<definition display-name="Publisher Setting" hide="false" id="195" name="pubSetting" type="enum">
 						<description>Specify the Publisher Setting.</description>
 						<enum-choice display-name="Poll Mode">Poll</enum-choice>
 						<enum-choice display-name="Publish Mode">Publish</enum-choice>
 						<value>Poll</value>
 					</definition>
 					<subordinates active-value="Poll">
-						<definition display-name="Configure Resource for poll" id="219" instance-separator=" " name="resrc-Poll" type="structured" value-separator="#">
+						<definition display-name="Configure Resource for poll" id="196" instance-separator=" " name="resrc-Poll" type="structured" value-separator="#">
 							<value/>
 							<description/>
 							<template max-count="10" min-count="0">
-								<definition display-name="Schema name" id="220" multiline="false" name="resrc-schemaName" type="string">
+								<definition display-name="Schema name" id="197" multiline="false" name="resrc-schemaName" type="string">
 									<description>Specify the class name of the user resource returned present in application schema.</description>
 									<value xml:space="preserve"/>
 								</definition>
-								<definition display-name="Service Endpoints" id="221" multiline="false" name="resrc-pollurl" type="string">
+								<definition display-name="Service Endpoints" id="198" multiline="false" name="resrc-pollurl" type="string">
 									<description>Specify the REST URLs for the resource. Mention queriable strings as %s.</description>
 									<value xml:space="preserve"/>
 								</definition>
-								<definition display-name="Method" id="222" multiline="false" name="resrc-pollMethodCall" type="enum">
+								<definition display-name="Method" id="199" multiline="false" name="resrc-pollMethodCall" type="enum">
 									<description>HTTP method to be used.</description>
 									<enum-choice display-name="GET">0</enum-choice>
 									<enum-choice display-name="POST">1</enum-choice>
@@ -719,13 +584,13 @@ Example: http://164.99.162.47:7075</description>
 									<enum-choice display-name="PUT">3</enum-choice>
 									<enum-choice display-name="DELETE">4</enum-choice>
 								</definition>
-								<definition display-name="Optional Header Fields" id="223" instance-separator=" " name="resrc-PollHeader" type="structured" value-separator=";">
+								<definition display-name="Optional Header Fields" id="200" instance-separator=" " name="resrc-PollHeader" type="structured" value-separator=";">
 									<description/>
 									<template max-count="10" min-count="0">
-										<definition display-name="Header Name" id="224" multiline="true" name="resrc-pollHeaderName" type="string">
+										<definition display-name="Header Name" id="201" multiline="true" name="resrc-pollHeaderName" type="string">
 											<description>Header Name.</description>
 										</definition>
-										<definition display-name="Header Value" id="225" multiline="true" name="resrc-pollHeaderValue" type="string">
+										<definition display-name="Header Value" id="202" multiline="true" name="resrc-pollHeaderValue" type="string">
 											<description>Header value.</description>
 										</definition>
 									</template>
@@ -738,63 +603,63 @@ Example: http://164.99.162.47:7075</description>
 										<enum-choice display-name="xlfid(NETQRESTBASE.initial.settings.param.choice.pollBegin.Synchronizeeverything)Synchronize everything">2</enum-choice>
 										<value>1</value>
 									</definition-->
-						<definition display-name="Polling interval in minutes" id="226" name="pollingInterval" type="string">
+						<definition display-name="Polling interval in minutes" id="203" name="pollingInterval" type="string">
 							<description>Specify the polling interval in minutes. </description>
 							<value xml:space="preserve">1</value>
 						</definition>
 					</subordinates>
 					<subordinates active-value="Publish">
-						<definition display-name="Listening IP address and port" hide="false" id="227" name="pubHostPort" type="string">
+						<definition display-name="Listening IP address and port" hide="false" id="204" name="pubHostPort" type="string">
 							<description>Specify the IP address of the server where this driver is installed and the port that this driver listens on. You can specify 127.0.0.1 if there is only one network card installed in the server. Choose an unused port number on your server. For example: 127.0.0.1:18180. The driver listens on this address for incoming requests, processes the requests, and returns a result.</description>
 							<value xml:space="preserve"></value>
 						</definition>
 						<group>
-							<definition display-name="Authentication Method" hide="false" id="228" name="pubAuthMethod" type="enum">
+							<definition display-name="Authentication Method" hide="false" id="205" name="pubAuthMethod" type="enum">
 								<description>Specify the authentication ID for the REST server or Web Service if Basic Authorization (on the HTTP header).</description>
 								<enum-choice display-name="Anonymous">Anonymous</enum-choice>
 								<enum-choice display-name="Basic">Basic</enum-choice>
 								<value>Basic</value>
 							</definition>
 							<subordinates active-value="Basic">
-								<definition display-name="Authentication ID" hide="false" id="229" name="pubAuthBasicID" type="string">
+								<definition display-name="Authentication ID" hide="false" id="206" name="pubAuthBasicID" type="string">
 									<description>Specify the authentication ID for Basic Authorization (on the HTTP header).</description>
 									<value xml:space="preserve"></value>
 								</definition>
-								<definition display-name="Authentication Password" hide="false" id="230" is-sensitive="true" name="pubAuthBasicPwd" type="password-ref">
+								<definition display-name="Authentication Password" hide="false" id="207" is-sensitive="true" name="pubAuthBasicPwd" type="password-ref">
 									<description>Specify the authentication password for Basic Authorization (on the HTTP header).</description>
 									<value xml:space="preserve">subAuthPwd-1</value>
 								<pwd-value removePwd="false"></pwd-value></definition>
 							</subordinates>
 						</group>
-						<header display-name="Other Options" id="239"/>
-						<definition display-name="KMO name" id="231" name="KMOName" type="string">
+						<header display-name="Other Options" id="216"/>
+						<definition display-name="KMO name" id="208" name="KMOName" type="string">
 							<description>When this server is configured to accept HTTPS connections, this is the KMO name in eDirectory. The KMO name is the name before the ' - ' in the RDN. Leave this field blank when a keystore file is used (see below) or when HTTPS connections are not used.</description>
 							<value xml:space="preserve"></value>
 						</definition>
-						<definition display-name="Keystore file" id="232" name="pubKeystoreFile" type="string">
+						<definition display-name="Keystore file" id="209" name="pubKeystoreFile" type="string">
 							<description>When this server is configured to accept HTTPS connections, this is the path and the name of the keystore file. For example: C:\security\keystore. Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
 							<value xml:space="preserve"></value>
 						</definition>
-						<definition display-name="Keystore password" id="233" name="pubKeystorePassword" type="password-ref">
+						<definition display-name="Keystore password" id="210" name="pubKeystorePassword" type="password-ref">
 							<description>When this server is configured to accept HTTPS connections, this is the keystore file password. Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
 							<value xml:space="preserve">pubKeystorePassword</value>
 						<pwd-value removePwd="false"></pwd-value></definition>
-						<definition display-name="Server key alias" id="234" name="pubServerKeyAlias" type="string">
+						<definition display-name="Server key alias" id="211" name="pubServerKeyAlias" type="string">
 							<description>When this server is configured to accept HTTPS connections, this is the key alias. Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
 							<value xml:space="preserve"></value>
 						</definition>
-						<definition display-name="Server key password" id="235" name="pubServerKeyPassword" type="password-ref">
+						<definition display-name="Server key password" id="212" name="pubServerKeyPassword" type="password-ref">
 							<description>When this server is configured to accept HTTPS connections, this is the key alias password (not the keystore password). Leave this field blank when a KMO name is used (see above) or when HTTPS connections are not used.</description>
 							<value xml:space="preserve">pubServerKeyPassword</value>
 						<pwd-value removePwd="false"></pwd-value></definition>
-						<definition display-name="Require mutual authentication" id="236" name="pubRequireMutualAuth" type="enum">
+						<definition display-name="Require mutual authentication" id="213" name="pubRequireMutualAuth" type="enum">
 							<description>When using SSL, it is common to do only server authentication. However, if you want to force both client and server to present certificates during the handshake process, select Required.</description>
 							<enum-choice display-name="Required">true</enum-choice>
 							<enum-choice display-name="Not required">false</enum-choice>
 							<value>false</value>
 						</definition>
 					</subordinates>
-					<definition display-name="Heartbeat interval in minutes" id="237" name="heartbeat" type="string">
+					<definition display-name="Heartbeat interval in minutes" id="214" name="heartbeat" type="string">
 						<description>Specify the heartbeat interval in minutes. Leave this field blank to turn off the heartbeat.</description>
 						<value xml:space="preserve">1</value>
 					</definition>
